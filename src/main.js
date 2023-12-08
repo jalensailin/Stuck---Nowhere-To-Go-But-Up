@@ -29,7 +29,7 @@ canvas.scenes = {
   testLevel: new Scene(testMapData),
 };
 
-canvas.player = new Player("test-character");
+canvas.player = new Player("test-character-positions");
 
 // Iterate through scenes and define/register them in kaboom.
 for (const [name, _scene] of Object.entries(canvas.scenes)) {

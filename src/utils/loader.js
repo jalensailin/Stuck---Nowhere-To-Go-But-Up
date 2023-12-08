@@ -13,6 +13,29 @@ export default class Load {
       "test-character",
       "../../assets/character-sprites/test-character.png",
     );
+
+    loadSprite(
+      "test-character-positions",
+      "../../assets/character-sprites/test-character-positions.png",
+      {
+        sliceX: 4,
+        sliceY: 3,
+        anims: {
+          "green-idle-down": 0,
+          "green-idle-right": 1,
+          "green-idle-up": 2,
+          "green-idle-left": 3,
+          "red-idle-down": 4,
+          "red-idle-right": 5,
+          "red-idle-up": 6,
+          "red-idle-left": 7,
+          "blue-idle-down": 8,
+          "blue-idle-right": 9,
+          "blue-idle-up": 10,
+          "blue-idle-left": 11,
+        },
+      },
+    );
   }
 
   /**
