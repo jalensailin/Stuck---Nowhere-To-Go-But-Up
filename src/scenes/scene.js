@@ -16,6 +16,7 @@ export default class Scene {
     const scene = new Scene(mapData); // Initialize scene
     for (const layer of mapData.layers) {
       scene.drawTiles(layer);
+      scene.drawBoundaries(layer);
     }
     camScale(1.5); // Scale the camera
   }
@@ -43,6 +44,20 @@ export default class Scene {
         sprite("comfy-interior", { frame: tile - 1 }),
         pos(tilePos), // Give the sprite the correct vector (vec2)
         offscreen(), // Lowers rendering time
+      ]);
+    }
+  }
+
+  drawBoundaries(layer) {
+    if (!layer.objects) return;
+    for (const boundary of layer.objects) {
+      const tags = [boundary.name, boundary.class];
+      this.map.add([
+        area({ shape: new Rect(vec2(0), boundary.width, boundary.height) }), // Hitbox
+        pos(vec2(boundary.x, boundary.y + 16)),
+        body({ isStatic: true }), // Player should not be able to push this or pass through it.
+        offscreen(),
+        ...tags,
       ]);
     }
   }
