@@ -8,5 +8,10 @@ export default class Load {
         sliceY: 128,
       },
     );
+
+    loadSprite(
+      "test-character",
+      "../../assets/character-sprites/test-character.png",
+    );
   }
 }

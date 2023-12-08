@@ -1,10 +1,14 @@
 /* eslint-disable no-continue */
+import Player from "../entities/player.js";
 
 export default class Scene {
   constructor(mapData) {
     this.map = add([pos(0, 0)]); // Add a blank map
     this.tileheight = mapData.tileheight;
     this.tilewidth = mapData.tilewidth;
+    this.entities = {
+      player: null,
+    };
   }
 
   static async initialize(mapName, { r, g, b } = { r: 0, g: 0, b: 0 }) {
@@ -12,13 +16,26 @@ export default class Scene {
     const mapData = await (
       await fetch(`../../assets/maps/${mapName}.json`)
     ).json();
+
     setBackground(r, g, b); // Set the background color
+
     const scene = new Scene(mapData); // Initialize scene
+
     for (const layer of mapData.layers) {
       scene.drawTiles(layer);
       scene.drawBoundaries(layer);
+      if (layer.name === "SpawnPoints") {
+        for (const spawnPoint of layer.objects) {
+          scene.entities.player = scene.map.add(
+            // Add the player game Object at the spawn point's coordinates.
+            Player.initialize(vec2(spawnPoint.x, spawnPoint.y)),
+          );
+          continue;
+        }
+      }
     }
-    camScale(1.5); // Scale the camera
+    camScale(2); // Scale the camera
+    camPos(scene.entities.player.worldPos());
   }
 
   drawTiles(layer) {
@@ -60,5 +77,9 @@ export default class Scene {
         ...tags,
       ]);
     }
+  }
+
+  spawnEntity(entity) {
+    return this.map.add(entity.components);
   }
 }
