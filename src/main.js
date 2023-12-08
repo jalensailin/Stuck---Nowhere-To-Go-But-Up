@@ -5,7 +5,7 @@ import Canvas from "./canvas.js";
 import Player from "./entities/player.js";
 
 // Create Canvas Singleton
-const canvas = new Canvas(416, 416);
+const canvas = new Canvas(1280, 720);
 
 // Assign canvas to globalThis.
 Object.defineProperty(globalThis, "GameCanvas", {

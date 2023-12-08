@@ -27,6 +27,8 @@ export default class Scene {
     for (const layer of this.mapData.layers) {
       this.drawTiles(layer);
       this.drawBoundaries(layer);
+
+      // Spawn entities
       if (layer.name === "SpawnPoints") {
         for (const spawnPoint of layer.objects) {
           // Add the player game object at the spawn point's coordinates.
@@ -35,8 +37,27 @@ export default class Scene {
         }
       }
     }
-    camScale(2); // Scale the camera
+    camScale(4); // Scale the camera
     camPos(player.gameObj.worldPos()); // Position the camera on our player
+
+    // Update loop that is run every frame.
+    onUpdate(() => {
+      // TODO: figure out what this conditional is doing
+      if (player.gameObj.pos.dist(camPos())) {
+        // If we want the tween to finish before moving on with logic, use `await`
+        tween(
+          camPos(), // initial position
+          player.gameObj.worldPos(), // target position
+          0.05, // how fast do we want the values to change
+          // Callback function called eversy frame.
+          // Argument is a position between initial and target - what to do when updating.
+          (newPos) => {
+            camPos(newPos);
+          },
+          easings.linear, // easing function to use
+        );
+      }
+    });
   }
 
   drawTiles(layer) {
