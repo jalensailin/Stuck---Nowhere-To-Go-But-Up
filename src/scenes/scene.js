@@ -7,16 +7,17 @@ export default class Scene {
     this.tilewidth = mapData.tilewidth;
   }
 
-  static async initialize(mapName) {
+  static async initialize(mapName, { r, g, b } = { r: 0, g: 0, b: 0 }) {
+    // Fetch the map json
     const mapData = await (
       await fetch(`../../assets/maps/${mapName}.json`)
     ).json();
-    const scene = new Scene(mapData);
-    const { layers } = mapData;
-    for (const layer of layers) {
+    setBackground(r, g, b); // Set the background color
+    const scene = new Scene(mapData); // Initialize scene
+    for (const layer of mapData.layers) {
       scene.drawTiles(layer);
     }
-    camScale(1);
+    camScale(1.5); // Scale the camera
   }
 
   drawTiles(layer) {
