@@ -2,6 +2,7 @@
 import Scene from "./scenes/scene.js";
 import Load from "./utils/loader.js";
 import Canvas from "./canvas.js";
+import Player from "./entities/player.js";
 
 // Create Canvas Singleton
 const canvas = new Canvas(416, 416);
@@ -27,6 +28,8 @@ const testMapData = await Load.mapData("test-map");
 canvas.scenes = {
   testLevel: new Scene(testMapData),
 };
+
+canvas.player = new Player("test-character");
 
 // Iterate through scenes and define/register them in kaboom.
 for (const [name, _scene] of Object.entries(canvas.scenes)) {

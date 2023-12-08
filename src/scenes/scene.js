@@ -1,6 +1,4 @@
 /* eslint-disable no-continue */
-import Player from "../entities/player.js";
-
 export default class Scene {
   constructor(mapData) {
     this.mapData = mapData;
@@ -15,30 +13,30 @@ export default class Scene {
   /**
    * Main logic for initializing/drawing the scene.
    *
-   * @param {Number} [color.r = 0] -
-   * @param {Number} [color.b = 0] -
-   * @param {Number} [color.g = 0] -
+   * @param {Number} [color.r = 0]
+   * @param {Number} [color.b = 0]
+   * @param {Number} [color.g = 0]
    */
   initialize({ r, g, b } = { r: 0, g: 0, b: 0 }) {
     // We have to actually add this to the map once the scene is created, otherwise it is just an orphaned Game Object.
     // It might be more clear to declare `this.map = null` in the constructor, and to do `this.map = add([pos(0,0)])` here.
     add(this.map);
     setBackground(r, g, b); // Set the background color
+
+    const { player } = GameCanvas;
     for (const layer of this.mapData.layers) {
       this.drawTiles(layer);
       this.drawBoundaries(layer);
       if (layer.name === "SpawnPoints") {
         for (const spawnPoint of layer.objects) {
-          this.entities.player = this.map.add(
-            // Add the player game Object at the spawn point's coordinates.
-            Player.initialize(vec2(spawnPoint.x, spawnPoint.y)),
-          );
+          // Add the player game object at the spawn point's coordinates.
+          player.initialize(this.map, vec2(spawnPoint.x, spawnPoint.y));
           continue;
         }
       }
     }
     camScale(2); // Scale the camera
-    camPos(this.entities.player.worldPos()); // Position the camera on our player
+    camPos(player.gameObj.worldPos()); // Position the camera on our player
   }
 
   drawTiles(layer) {
