@@ -20,16 +20,17 @@ canvas.initialize(416, 416);
 // Load our assets
 Load.sprites();
 
+// Load the map data.
+const testMapData = await Load.mapData("test-map");
+
 // Attach scenes to the canvas.
 canvas.scenes = {
-  testLevel: () => {
-    Scene.initialize("test-map");
-  },
+  testLevel: new Scene(testMapData),
 };
 
 // Iterate through scenes and define/register them in kaboom.
-for (const [name, fn] of Object.entries(canvas.scenes)) {
-  scene(name, fn);
+for (const [name, _scene] of Object.entries(canvas.scenes)) {
+  scene(name, () => _scene.initialize());
 }
 
 go("testLevel");

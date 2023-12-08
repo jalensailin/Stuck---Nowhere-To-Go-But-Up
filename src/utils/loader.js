@@ -14,4 +14,14 @@ export default class Load {
       "../../assets/character-sprites/test-character.png",
     );
   }
+
+  /**
+   * Fetch map data from json files.
+   *
+   * @param {String} mapName - Must be the same name (no extension) as in the maps directory
+   * @returns
+   */
+  static async mapData(mapName) {
+    return (await fetch(`../../assets/maps/${mapName}.json`)).json();
+  }
 }
