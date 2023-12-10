@@ -49,7 +49,7 @@ export default class Scene {
           camPos(), // initial position
           player.gameObj.worldPos(), // target position
           0.05, // how fast do we want the values to change
-          // Callback function called eversy frame.
+          // Callback function called every frame.
           // Argument is a position between initial and target - what to do when updating.
           (newPos) => {
             camPos(newPos);

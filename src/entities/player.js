@@ -43,7 +43,7 @@ export default class Player {
         x: 0,
         y: 0,
       };
-      // Check if keys are down and assign velocity components accordinly.
+      // Check if keys are down and assign velocity components accordingly.
       if (KeyUtils.areKeysDown(keys.up)) {
         vel.y -= 1;
       }
