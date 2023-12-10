@@ -1,14 +1,17 @@
 import AnimUtils from "../utils/animation.js";
+import KeyUtils from "../utils/keys.js";
 
 export default class Player {
   constructor(spriteName) {
     this.sprite = spriteName;
     this.speed = 100;
     this.direction = "down";
-    this.gameObj = null;
+    this.directionVector = vec2(0, 0);
+    this.gameObj = null; // Game object will get defined on initialization.
   }
 
   initialize(parentObj, position) {
+    // Add and set the game object.
     this.gameObj = parentObj.add([
       // Create a sprite
       sprite(this.sprite, { width: 16, height: 16, anim: "green-idle-down" }),
@@ -24,33 +27,60 @@ export default class Player {
     this.setMovement();
   }
 
+  /**
+   * Credit to Luiz Bills for inspiration on this movement function.
+   */
   setMovement() {
-    onKeyDown((key) => {
-      const upKeys = ["up", "w"];
-      const leftKeys = ["left", "a"];
-      const rightKeys = ["right", "d"];
-      const downKeys = ["down", "s"];
+    const keys = {
+      up: ["up", "w"],
+      left: ["left", "a"],
+      right: ["right", "d"],
+      down: ["down", "s"],
+    };
 
+    onUpdate(() => {
+      const vel = {
+        x: 0,
+        y: 0,
+      };
+      // Check if keys are down and assign velocity components accordinly.
+      if (KeyUtils.areKeysDown(keys.up)) {
+        vel.y -= 1;
+      }
+      if (KeyUtils.areKeysDown(keys.down)) {
+        vel.y += 1;
+      }
+      if (KeyUtils.areKeysDown(keys.right)) {
+        vel.x += 1;
+      }
+      if (KeyUtils.areKeysDown(keys.left)) {
+        vel.x -= 1;
+      }
+      this.directionVector = vec2(vel.x, vel.y);
+      if (!this.directionVector.isZero()) {
+        const velocity = this.directionVector.unit().scale(this.speed); // unit() to fix diagonal movement
+        this.gameObj.move(velocity);
+      }
+    });
+
+    // Change Animations on key down.
+    onKeyDown((key) => {
       const { gameObj } = this;
-      if (leftKeys.includes(key)) {
+      if (keys.left.includes(key)) {
         AnimUtils.playAnim(gameObj, "green-idle-left");
-        gameObj.move(-this.speed, 0); // Works with a game object that has area and body defined.
         this.direction = "left";
       }
 
-      if (rightKeys.includes(key)) {
+      if (keys.right.includes(key)) {
         AnimUtils.playAnim(gameObj, "green-idle-right");
-        gameObj.move(this.speed, 0);
         this.direction = "right";
       }
-      if (upKeys.includes(key)) {
+      if (keys.up.includes(key)) {
         AnimUtils.playAnim(gameObj, "green-idle-up");
-        gameObj.move(0, -this.speed);
         this.direction = "up";
       }
-      if (downKeys.includes(key)) {
+      if (keys.down.includes(key)) {
         AnimUtils.playAnim(gameObj, "green-idle-down");
-        gameObj.move(0, this.speed);
         this.direction = "down";
       }
     });
