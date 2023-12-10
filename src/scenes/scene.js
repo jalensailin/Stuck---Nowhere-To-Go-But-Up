@@ -1,4 +1,6 @@
 /* eslint-disable no-continue */
+import ViewBox from "../ui/view-box.js";
+
 export default class Scene {
   constructor(mapData) {
     this.mapData = mapData;
@@ -6,7 +8,7 @@ export default class Scene {
     this.tileheight = mapData.tileheight;
     this.tilewidth = mapData.tilewidth;
     this.entities = {
-      player: null,
+      player: GameCanvas.player,
     };
   }
 
@@ -23,7 +25,7 @@ export default class Scene {
     add(this.map);
     setBackground(r, g, b); // Set the background color
 
-    const { player } = GameCanvas;
+    const { player } = this.entities;
     for (const layer of this.mapData.layers) {
       this.drawTiles(layer);
       this.drawBoundaries(layer);
@@ -106,63 +108,20 @@ export default class Scene {
   }
 
   setCollisions() {
-    onHover("viewBox", (viewBox) => {
-      tween(
-        viewBox.opacity,
-        1,
-        0.2,
-        (val) => {
-          viewBox.opacity = val;
-        },
-        easings.linear,
-      );
+    const { player } = this.entities;
+    player.gameObj.onCollide("viewable", (viewable) => {
+      const viewBox = new ViewBox(viewable.name);
+      viewBox.initialize(viewable);
     });
 
-    onHoverEnd("viewBox", (viewBox) => {
-      tween(
-        viewBox.opacity,
-        0.7,
-        0.2,
-        (val) => {
-          viewBox.opacity = val;
-        },
-        easings.linear,
-      );
-    });
-
-    onCollide("player", "viewable", (player, viewable) => {
-      const spriteData = getSprite(viewable.name);
-      const viewBox = viewable.add([
-        sprite(viewable.name, { width: spriteData.data.width * 2, height: 1 }),
-        pos(12, 0),
-        opacity(0.7),
-        area(),
-        "viewBox",
-      ]);
-      tween(
-        1,
-        spriteData.data.height * 2,
-        0.5,
-        (val) => {
-          viewBox.height = val;
-        },
-        easings.easeInOutSine,
-      );
-    });
-
-    onCollideEnd("player", "viewable", async (player, viewable) => {
-      const spriteData = getSprite(viewable.name);
-      const [viewBox] = viewable.get("viewBox");
-      await tween(
-        viewBox.height,
-        1,
-        0.5 * (viewBox.height / (spriteData.data.height * 2)),
-        (val) => {
-          viewBox.height = val;
-        },
-        easings.easeInOutSine,
-      );
-      destroy(viewBox);
+    player.gameObj.onCollideEnd("viewable", async (viewable) => {
+      const viewBoxGameObjs = viewable.get("viewBox");
+      const viewBoxes = viewBoxGameObjs.map((gameObj) => gameObj.viewBox);
+      const toDestroy = [];
+      for (const viewBox of viewBoxes) {
+        toDestroy.push(viewBox.destroy());
+      }
+      await Promise.all(toDestroy);
     });
   }
 }

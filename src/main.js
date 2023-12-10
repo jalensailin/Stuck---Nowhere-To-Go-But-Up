@@ -21,6 +21,9 @@ canvas.initialize(416, 416);
 // Load our assets
 Load.sprites();
 
+// Create our Player singleton.
+canvas.player = new Player("test-character-positions");
+
 // Load the map data.
 const testMapData = await Load.mapData("test-map");
 
@@ -28,8 +31,6 @@ const testMapData = await Load.mapData("test-map");
 canvas.scenes = {
   testLevel: new Scene(testMapData),
 };
-
-canvas.player = new Player("test-character-positions");
 
 // Iterate through scenes and define/register them in kaboom.
 for (const [name, _scene] of Object.entries(canvas.scenes)) {
