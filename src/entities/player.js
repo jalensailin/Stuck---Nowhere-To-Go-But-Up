@@ -24,6 +24,9 @@ export default class Player {
       opacity(),
       // Pass in strings which are interpreted as tags by which the entity can be identified later.
       "player",
+      {
+        player: this,
+      },
     ]);
     this.setMovement();
   }
