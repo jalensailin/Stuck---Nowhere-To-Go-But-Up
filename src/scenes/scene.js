@@ -58,6 +58,8 @@ export default class Scene {
         );
       }
     });
+
+    this.setCollisions();
   }
 
   drawTiles(layer) {
@@ -90,18 +92,77 @@ export default class Scene {
   drawBoundaries(layer) {
     if (!layer.objects) return;
     for (const boundary of layer.objects) {
-      const tags = [boundary.name, boundary.class];
       this.map.add([
         area({ shape: new Rect(vec2(0), boundary.width, boundary.height) }), // Hitbox
         pos(vec2(boundary.x, boundary.y + 16)),
         body({ isStatic: true }), // Player should not be able to push this or pass through it.
         offscreen(),
-        ...tags,
+        boundary.type,
+        {
+          name: boundary.name,
+        },
       ]);
     }
   }
 
-  spawnEntity(entity) {
-    return this.map.add(entity.components);
+  setCollisions() {
+    onHover("viewBox", (viewBox) => {
+      tween(
+        viewBox.opacity,
+        1,
+        0.2,
+        (val) => {
+          viewBox.opacity = val;
+        },
+        easings.linear,
+      );
+    });
+
+    onHoverEnd("viewBox", (viewBox) => {
+      tween(
+        viewBox.opacity,
+        0.7,
+        0.2,
+        (val) => {
+          viewBox.opacity = val;
+        },
+        easings.linear,
+      );
+    });
+
+    onCollide("player", "viewable", (player, viewable) => {
+      const spriteData = getSprite(viewable.name);
+      const viewBox = viewable.add([
+        sprite(viewable.name, { width: spriteData.data.width * 2, height: 1 }),
+        pos(12, 0),
+        opacity(0.7),
+        area(),
+        "viewBox",
+      ]);
+      tween(
+        1,
+        spriteData.data.height * 2,
+        0.5,
+        (val) => {
+          viewBox.height = val;
+        },
+        easings.easeInOutSine,
+      );
+    });
+
+    onCollideEnd("player", "viewable", async (player, viewable) => {
+      const spriteData = getSprite(viewable.name);
+      const [viewBox] = viewable.get("viewBox");
+      await tween(
+        viewBox.height,
+        1,
+        0.5 * (viewBox.height / (spriteData.data.height * 2)),
+        (val) => {
+          viewBox.height = val;
+        },
+        easings.easeInOutSine,
+      );
+      destroy(viewBox);
+    });
   }
 }

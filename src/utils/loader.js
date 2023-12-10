@@ -9,6 +9,21 @@ export default class Load {
       },
     );
 
+    loadSpriteAtlas("../../assets/comfy-interior-global-limited.png", {
+      "the-shining": {
+        x: 1952,
+        y: 1024,
+        width: 16,
+        height: 20,
+      },
+      "american-gothic": {
+        x: 1717,
+        y: 1217,
+        width: 21,
+        height: 27,
+      },
+    });
+
     loadSprite(
       "test-character",
       "../../assets/character-sprites/test-character.png",

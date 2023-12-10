@@ -16,7 +16,7 @@ Object.defineProperty(globalThis, "GameCanvas", {
 });
 
 // Initialize Kaboom and draw the canvas.
-canvas.initialize();
+canvas.initialize(416, 416);
 
 // Load our assets
 Load.sprites();
