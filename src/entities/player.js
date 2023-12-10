@@ -1,5 +1,6 @@
 import AnimUtils from "../utils/animation.js";
 import KeyUtils from "../utils/keys.js";
+import STUCK from "../config.js";
 
 export default class Player {
   constructor(spriteName) {
@@ -31,12 +32,7 @@ export default class Player {
    * Credit to Luiz Bills for inspiration on this movement function.
    */
   setMovement() {
-    const keys = {
-      up: ["up", "w"],
-      left: ["left", "a"],
-      right: ["right", "d"],
-      down: ["down", "s"],
-    };
+    const { keys } = STUCK.controls;
 
     onUpdate(() => {
       const vel = {
