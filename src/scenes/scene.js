@@ -1,4 +1,5 @@
 /* eslint-disable no-continue */
+import Camera from "../ui/camera.js";
 import ViewBox from "../ui/view-box.js";
 
 export default class Scene {
@@ -9,6 +10,9 @@ export default class Scene {
     this.tilewidth = mapData.tilewidth;
     this.entities = {
       player: StuckGame.Player,
+    };
+    this.cameras = {
+      player: new Camera({ scale: 4 }, this.entities.player),
     };
   }
 
@@ -39,28 +43,7 @@ export default class Scene {
         }
       }
     }
-    camScale(4); // Scale the camera
-    camPos(player.gameObj.worldPos()); // Position the camera on our player
-
-    // Update loop that is run every frame.
-    onUpdate(() => {
-      // TODO: figure out what this conditional is doing
-      if (player.gameObj.pos.dist(camPos())) {
-        // If we want the tween to finish before moving on with logic, use `await`
-        tween(
-          camPos(), // initial position
-          player.gameObj.worldPos(), // target position
-          0.05, // how fast do we want the values to change
-          // Callback function called every frame.
-          // Argument is a position between initial and target - what to do when updating.
-          (newPos) => {
-            camPos(newPos);
-          },
-          easings.linear, // easing function to use
-        );
-      }
-    });
-
+    this.cameras.player.initialize(); // Initialize Player Camera
     this.setCollisions();
   }
 
