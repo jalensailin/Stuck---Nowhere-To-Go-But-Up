@@ -8,7 +8,7 @@ export default class Scene {
     this.tileheight = mapData.tileheight;
     this.tilewidth = mapData.tilewidth;
     this.entities = {
-      player: GameCanvas.player,
+      player: StuckGame.Player,
     };
   }
 

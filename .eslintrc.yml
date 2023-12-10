@@ -43,7 +43,7 @@ rules:
     - error
     - allowForLoopAfterthoughts: true
 globals:
-  GameCanvas: readonly
+  StuckGame: readonly
   add: readonly
   make: readonly
   readd: readonly

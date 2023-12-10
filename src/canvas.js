@@ -13,8 +13,6 @@ export default class Canvas {
   constructor(width, height) {
     this.height = height;
     this.width = width;
-    this.scenes = null;
-    this.player = null;
   }
 
   /**
