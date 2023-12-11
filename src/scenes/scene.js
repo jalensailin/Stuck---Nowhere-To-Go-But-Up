@@ -1,5 +1,5 @@
 /* eslint-disable no-continue */
-import Camera from "../ui/camera.js";
+import SubjectCamera from "../ui/cameras/subject-camera.js";
 import ViewBox from "../ui/view-box.js";
 
 export default class Scene {
@@ -12,7 +12,7 @@ export default class Scene {
       player: StuckGame.Player,
     };
     this.cameras = {
-      player: new Camera({ scale: 4 }, this.entities.player),
+      player: new SubjectCamera(this.entities.player, { scale: 4 }),
     };
   }
 
