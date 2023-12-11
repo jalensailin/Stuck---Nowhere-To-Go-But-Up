@@ -9,6 +9,8 @@ export default class Load {
       },
     );
 
+    loadSprite("cellphone", "../../assets/cellphone/test-cellphone.png");
+
     loadSpriteAtlas("../../assets/comfy-interior-global-limited.png", {
       "the-shining": {
         x: 1952,

@@ -44,6 +44,7 @@ export default class Scene {
       }
     }
     this.cameras.player.initialize(); // Initialize Player Camera
+    StuckGame.Cellphone.setPhoneListeners(this.map);
     this.setCollisions();
   }
 

@@ -56,6 +56,7 @@ export default class UIElement {
   async destroy() {
     await this.playCloseAnimation();
     this.gameObj.destroy();
+    this.gameObj = null; // gameObj no longer exists, so lets reflect that.
   }
 
   /**
@@ -67,6 +68,7 @@ export default class UIElement {
     return [
       pos(initial.offset),
       opacity(initial.opacity),
+      timer(),
       this.name,
       { [this.name]: this },
     ];
