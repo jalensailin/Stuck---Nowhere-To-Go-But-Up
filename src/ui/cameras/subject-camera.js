@@ -1,3 +1,4 @@
+import Animations from "../animations.js";
 import Camera from "./camera.js";
 
 export default class SubjectCamera extends Camera {
@@ -19,17 +20,7 @@ export default class SubjectCamera extends Camera {
       // TODO: figure out what this conditional is doing
       if (this.subject.gameObj.pos.dist(camPos())) {
         // If we want the tween to finish before moving on with logic, use `await`
-        tween(
-          camPos(), // initial position
-          this.subject.gameObj.worldPos(), // target position
-          0.05, // how fast do we want the values to change
-          // Callback function called every frame.
-          // Argument is a position between initial and target - what to do when updating.
-          (newPos) => {
-            camPos(newPos);
-          },
-          easings.linear, // easing function to use
-        );
+        Animations.CameraFollow(this.subject.gameObj, 0.05);
       }
     });
   }

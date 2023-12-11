@@ -1,3 +1,4 @@
+import Animations from "./animations.js";
 import UIElement from "./ui-elements/ui-element.js";
 
 export default class Cellphone extends UIElement {
@@ -43,14 +44,11 @@ export default class Cellphone extends UIElement {
    * @override
    */
   playOpenAnimation() {
-    this.gameObj.tween(
+    Animations.SlideVertical(
+      this.gameObj,
       this.initial.offset.y,
       this.final.offset.y,
       0.5,
-      (val) => {
-        this.gameObj.pos.y = val;
-      },
-      easings.easeInOutSine,
     );
   }
 
@@ -59,14 +57,11 @@ export default class Cellphone extends UIElement {
    * @override
    */
   async playCloseAnimation() {
-    await this.gameObj.tween(
+    await Animations.SlideVertical(
+      this.gameObj,
       this.gameObj.pos.y,
       this.initial.offset.y,
       0.5,
-      (val) => {
-        this.gameObj.pos.y = val;
-      },
-      easings.easeInOutSine,
     );
   }
 }

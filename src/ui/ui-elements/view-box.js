@@ -1,3 +1,4 @@
+import Animations from "../animations.js";
 import UIElement from "./ui-element.js";
 
 export default class ViewBox extends UIElement {
@@ -49,14 +50,11 @@ export default class ViewBox extends UIElement {
    * @override
    */
   playOpenAnimation() {
-    this.gameObj.tween(
+    Animations.Stretch(
+      this.gameObj,
       this.initial.height,
       this.final.height,
       0.5,
-      (val) => {
-        this.gameObj.height = val;
-      },
-      easings.easeInOutSine,
     );
   }
 
@@ -66,14 +64,11 @@ export default class ViewBox extends UIElement {
    */
   async playCloseAnimation() {
     const currentHeight = this.gameObj.height;
-    await this.gameObj.tween(
+    await Animations.Stretch(
+      this.gameObj,
       currentHeight,
       this.initial.height,
       0.5 * (currentHeight / this.final.height),
-      (val) => {
-        this.gameObj.height = val;
-      },
-      easings.easeInOutSine,
     );
   }
 
@@ -84,27 +79,11 @@ export default class ViewBox extends UIElement {
   setHoverBehavior() {
     const { gameObj } = this;
     gameObj.onHover(() => {
-      tween(
-        gameObj.opacity,
-        1,
-        0.2,
-        (val) => {
-          gameObj.opacity = val;
-        },
-        easings.linear,
-      );
+      Animations.Fade(gameObj, gameObj.opacity, 1, 0.2);
     });
 
     gameObj.onHoverEnd(() => {
-      tween(
-        gameObj.opacity,
-        0.7,
-        0.2,
-        (val) => {
-          gameObj.opacity = val;
-        },
-        easings.linear,
-      );
+      Animations.Fade(gameObj, gameObj.opacity, 0.7, 0.2);
     });
   }
 }
