@@ -10,6 +10,9 @@ export default class Cellphone extends UIElement {
     const { initial } = this;
     initial.offset = vec2(900, 680);
     this.final.offset = vec2(900, 180);
+
+    initial.opacity = 0.8;
+    this.final.opacity = 1;
   }
 
   getComponents() {
@@ -36,6 +39,7 @@ export default class Cellphone extends UIElement {
         return;
       }
       this.initialize(parentObject);
+      this.setFadeOnHover();
     });
   }
 

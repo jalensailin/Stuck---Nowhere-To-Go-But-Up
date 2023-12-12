@@ -25,7 +25,7 @@ export default class ViewBox extends UIElement {
    */
   initialize(parentObject) {
     super.initialize(parentObject);
-    this.setHoverBehavior();
+    this.setFadeOnHover();
   }
 
   /**
@@ -70,20 +70,5 @@ export default class ViewBox extends UIElement {
       this.initial.height,
       0.5 * (currentHeight / this.final.height),
     );
-  }
-
-  /**
-   * Full opacity when mouse hovers.
-   * Note: Events get cancelled when the game object they are made from is destroyed.
-   */
-  setHoverBehavior() {
-    const { gameObj } = this;
-    gameObj.onHover(() => {
-      Animations.Fade(gameObj, gameObj.opacity, 1, 0.2);
-    });
-
-    gameObj.onHoverEnd(() => {
-      Animations.Fade(gameObj, gameObj.opacity, 0.7, 0.2);
-    });
   }
 }

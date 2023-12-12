@@ -1,3 +1,5 @@
+import Animations from "../animations.js";
+
 export default class UIElement {
   /**
    *
@@ -82,5 +84,20 @@ export default class UIElement {
   // eslint-disable-next-line class-methods-use-this
   async playCloseAnimation() {
     // Does nothing as-is. Should be overridden.
+  }
+
+  /**
+   * Full opacity when mouse hovers.
+   * Note: Events get cancelled when the game object they are made from is destroyed.
+   */
+  setFadeOnHover() {
+    const { gameObj } = this;
+    gameObj.onHover(() => {
+      Animations.Fade(gameObj, gameObj.opacity, this.final.opacity, 0.2);
+    });
+
+    gameObj.onHoverEnd(() => {
+      Animations.Fade(gameObj, gameObj.opacity, this.initial.opacity, 0.2);
+    });
   }
 }
