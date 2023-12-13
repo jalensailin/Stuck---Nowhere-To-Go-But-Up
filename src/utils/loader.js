@@ -53,6 +53,25 @@ export default class Load {
         },
       },
     );
+
+    loadSprite(
+      "test-character-walking",
+      "../../assets/character-sprites/test-character-walking-anims.png",
+      {
+        sliceX: 4,
+        sliceY: 4,
+        anims: {
+          "green-up-idle": 0,
+          "green-up": { from: 0, to: 3, loop: true },
+          "green-down-idle": 4,
+          "green-down": { from: 4, to: 7, loop: true },
+          "green-left-idle": 8,
+          "green-left": { from: 8, to: 11, loop: true },
+          "green-right-idle": 12,
+          "green-right": { from: 12, to: 15, loop: true },
+        },
+      },
+    );
   }
 
   /**
