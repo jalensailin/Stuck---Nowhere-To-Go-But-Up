@@ -43,63 +43,6 @@ export default class Player {
     const keys = STUCK.controls.player;
 
     // Set up four way movement.
-    MovementUtils.fourWayMovement(this, keys);
-
-    onKeyRelease((key) => {
-      // Early return if not directional keys
-      if (!Object.values(keys).flat().includes(key)) return;
-
-      const currentAnim = this.gameObj.curAnim();
-
-      // If quickly releasing two keys, I think there is a split second where
-      // the first key releases, which stops the animation, then this event
-      // fires again, before a new animation can be set, thus curAnim() is false.
-      // We check to avoid errors.
-      if (!currentAnim) return;
-
-      this.gameObj.stop(); // Stop the animation
-
-      // Reset animation to idle.
-      const sprite = getSprite(this.sprite);
-      const anim = sprite.data.anims[currentAnim];
-      this.gameObj.frame = anim.from;
-    });
-
-    onUpdate(() => {
-      if (this.movementVector.isZero()) return;
-      switch (this.direction) {
-        case "up":
-          AnimUtils.playAnim(this.gameObj, "green-up");
-          break;
-        case "down":
-          AnimUtils.playAnim(this.gameObj, "green-down");
-          break;
-        case "left":
-          AnimUtils.playAnim(this.gameObj, "green-left");
-          break;
-        case "right":
-          AnimUtils.playAnim(this.gameObj, "green-right");
-          break;
-        default:
-          break;
-      }
-    });
-
-    // Change Animations on key down.
-    onKeyDown((key) => {
-      if (keys.left.includes(key)) {
-        this.direction = "left";
-      }
-
-      if (keys.right.includes(key)) {
-        this.direction = "right";
-      }
-      if (keys.up.includes(key)) {
-        this.direction = "up";
-      }
-      if (keys.down.includes(key)) {
-        this.direction = "down";
-      }
-    });
+    MovementUtils.fourWayMovement(this, keys, "green");
   }
 }

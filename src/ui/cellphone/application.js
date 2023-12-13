@@ -18,7 +18,8 @@ export default class Application {
    * Close the app and cancel associated listeners.
    */
   async close() {
-    this.listeners.forEach((listener) => listener.cancel());
+    // Flatten listeners array because there may be nested listeners.
+    this.listeners.flat().forEach((listener) => listener.cancel());
     await this.closeAnimation();
   }
 
