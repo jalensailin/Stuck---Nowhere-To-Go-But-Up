@@ -18,8 +18,8 @@ export default class Application {
    * Close the app and cancel associated listeners.
    */
   async close() {
-    await this.closeAnimation();
     this.listeners.forEach((listener) => listener.cancel());
+    await this.closeAnimation();
   }
 
   /**
