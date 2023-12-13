@@ -1,6 +1,6 @@
 import Animations from "../animations.js";
 import UIElement from "../ui-elements/ui-element.js";
-import Application from "./application.js";
+import CameraApp from "./camera-app.js";
 
 export default class Cellphone extends UIElement {
   constructor(options) {
@@ -20,7 +20,7 @@ export default class Cellphone extends UIElement {
 
     this.apps = {
       current: "none",
-      camera: new Application("camera"),
+      camera: new CameraApp(),
     };
   }
 
