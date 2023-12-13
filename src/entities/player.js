@@ -1,6 +1,6 @@
 import AnimUtils from "../utils/animation.js";
-import KeyUtils from "../utils/keys.js";
 import STUCK from "../config.js";
+import MovementUtils from "../utils/movement.js";
 
 export default class Player {
   constructor(spriteName) {
@@ -35,32 +35,10 @@ export default class Player {
    * Credit to Luiz Bills for inspiration on this movement function.
    */
   setMovement() {
-    const { keys } = STUCK.controls;
+    const keys = STUCK.controls.player;
 
-    onUpdate(() => {
-      const vel = {
-        x: 0,
-        y: 0,
-      };
-      // Check if keys are down and assign velocity components accordingly.
-      if (KeyUtils.areKeysDown(keys.up)) {
-        vel.y -= 1;
-      }
-      if (KeyUtils.areKeysDown(keys.down)) {
-        vel.y += 1;
-      }
-      if (KeyUtils.areKeysDown(keys.right)) {
-        vel.x += 1;
-      }
-      if (KeyUtils.areKeysDown(keys.left)) {
-        vel.x -= 1;
-      }
-      this.directionVector = vec2(vel.x, vel.y);
-      if (!this.directionVector.isZero()) {
-        const velocity = this.directionVector.unit().scale(this.speed); // unit() to fix diagonal movement
-        this.gameObj.move(velocity);
-      }
-    });
+    // Set up four way movement.
+    MovementUtils.fourWayMovement(this, keys);
 
     // Change Animations on key down.
     onKeyDown((key) => {

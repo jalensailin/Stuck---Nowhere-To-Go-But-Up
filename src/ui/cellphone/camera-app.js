@@ -1,6 +1,7 @@
 import Application from "./application.js";
 import Animations from "../animations.js";
-import KeyUtils from "../../utils/keys.js";
+import MovementUtils from "../../utils/movement.js";
+import STUCK from "../../config.js";
 
 export default class CameraApp extends Application {
   constructor() {
@@ -134,32 +135,10 @@ export default class CameraApp extends Application {
 
   setPhoneCameraMovement() {
     const { Cellphone } = StuckGame;
-    const movement = onUpdate(() => {
-      const vel = {
-        x: 0,
-        y: 0,
-      };
-      // Check if keys are down and assign velocity components accordingly.
-      if (KeyUtils.areKeysDown(["i"])) {
-        vel.y -= 1;
-      }
-      if (KeyUtils.areKeysDown(["k"])) {
-        vel.y += 1;
-      }
-      if (KeyUtils.areKeysDown(["l"])) {
-        vel.x += 1;
-      }
-      if (KeyUtils.areKeysDown(["j"])) {
-        vel.x -= 1;
-      }
-      Cellphone.directionVector = vec2(vel.x, vel.y);
-      if (!Cellphone.directionVector.isZero()) {
-        const velocity = Cellphone.directionVector
-          .unit()
-          .scale(Cellphone.speed); // unit() to fix diagonal movement
-        Cellphone.gameObj.move(velocity);
-      }
-      this.listeners.push(movement);
-    });
+    const movement = MovementUtils.fourWayMovement(
+      Cellphone,
+      STUCK.controls.cameraApp,
+    );
+    this.listeners.push(movement);
   }
 }
