@@ -7,7 +7,7 @@ export default class Player {
     this.sprite = spriteName;
     this.speed = 100;
     this.direction = "down";
-    this.directionVector = vec2(0, 0);
+    this.movementVector = vec2(0, 0);
     this.gameObj = null; // Game object will get defined on initialization.
   }
 
@@ -66,7 +66,7 @@ export default class Player {
     });
 
     onUpdate(() => {
-      if (this.directionVector.isZero()) return;
+      if (this.movementVector.isZero()) return;
       switch (this.direction) {
         case "up":
           AnimUtils.playAnim(this.gameObj, "green-up");

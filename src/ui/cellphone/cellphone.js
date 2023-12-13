@@ -15,7 +15,7 @@ export default class Cellphone extends UIElement {
     initial.opacity = 0.8;
     this.final.opacity = 1;
 
-    this.directionVector = vec2(0, 0);
+    this.movementVector = vec2(0, 0);
     this.speed = 300;
 
     this.apps = {
