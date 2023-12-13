@@ -27,11 +27,6 @@ export default class Load {
     });
 
     loadSprite(
-      "test-character",
-      "../../assets/character-sprites/test-character.png",
-    );
-
-    loadSprite(
       "test-character-positions",
       "../../assets/character-sprites/test-character-positions.png",
       {
