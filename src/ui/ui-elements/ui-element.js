@@ -31,12 +31,17 @@ export default class UIElement {
     this.final = {
       width: this.initial.width,
       height: this.initial.height,
-      scale: this.initial.scale,
-      offset: this.initial.offset,
+      scale: this.initial.scale.clone(),
+      offset: this.initial.offset.clone(),
       opacity: this.initial.opacity,
     };
 
     this.gameObj = null;
+
+    this.listeners = {
+      onHover: null,
+      onHoverEnd: null,
+    };
   }
 
   /**
@@ -92,11 +97,11 @@ export default class UIElement {
    */
   setFadeOnHover() {
     const { gameObj } = this;
-    gameObj.onHover(() => {
+    this.listeners.onHover = gameObj.onHover(() => {
       Animations.Fade(gameObj, gameObj.opacity, this.final.opacity, 0.2);
     });
 
-    gameObj.onHoverEnd(() => {
+    this.listeners.onHoverEnd = gameObj.onHoverEnd(() => {
       Animations.Fade(gameObj, gameObj.opacity, this.initial.opacity, 0.2);
     });
   }
