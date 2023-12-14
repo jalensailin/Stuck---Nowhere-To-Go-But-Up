@@ -1,4 +1,4 @@
-import Animations from "../animations.js";
+import Animations from "./animations.js";
 
 export default class GameElement {
   /**

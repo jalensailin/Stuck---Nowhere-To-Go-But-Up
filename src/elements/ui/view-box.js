@@ -1,5 +1,5 @@
 import Animations from "../animations.js";
-import GameElement from "./game-element.js";
+import GameElement from "../game-element.js";
 
 export default class ViewBox extends GameElement {
   constructor(spriteName, options) {

@@ -1,4 +1,4 @@
-import Animations from "../animations.js";
+import Animations from "../elements/animations.js";
 import Camera from "./camera.js";
 
 export default class SubjectCamera extends Camera {

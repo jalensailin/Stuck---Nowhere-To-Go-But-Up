@@ -1,4 +1,4 @@
-import GameElement from "../elements/game-element.js";
+import GameElement from "../game-element.js";
 
 export default class Application extends GameElement {
   constructor(name, icon) {

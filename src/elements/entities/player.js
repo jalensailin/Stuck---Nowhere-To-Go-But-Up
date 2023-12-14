@@ -1,6 +1,5 @@
-import AnimUtils from "../utils/animation.js";
-import STUCK from "../config.js";
-import MovementUtils from "../utils/movement.js";
+import STUCK from "../../config.js";
+import MovementUtils from "../../utils/movement.js";
 
 export default class Player {
   constructor(spriteName) {

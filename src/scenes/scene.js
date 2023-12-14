@@ -1,6 +1,6 @@
 /* eslint-disable no-continue */
-import SubjectCamera from "../ui/cameras/subject-camera.js";
-import ViewBox from "../ui/elements/view-box.js";
+import SubjectCamera from "../cameras/subject-camera.js";
+import ViewBox from "../elements/ui/view-box.js";
 
 export default class Scene {
   constructor(mapData) {

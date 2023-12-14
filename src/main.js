@@ -1,8 +1,8 @@
 import Scene from "./scenes/scene.js";
 import Load from "./utils/loader.js";
 import Canvas from "./canvas.js";
-import Player from "./entities/player.js";
-import Cellphone from "./ui/cellphone/cellphone.js";
+import Player from "./elements/entities/player.js";
+import Cellphone from "./elements/cellphone/cellphone.js";
 
 // Create StuckGame on globalThis.
 Object.defineProperty(globalThis, "StuckGame", {
