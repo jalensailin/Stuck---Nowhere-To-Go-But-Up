@@ -5,9 +5,7 @@ import STUCK from "../../config.js";
 
 export default class CameraApp extends Application {
   constructor() {
-    super();
-    this.name = "camera";
-    this.icon = "camera-icon";
+    super("camera", "camera-icon");
     this.initial.offset = vec2(14, 14);
   }
 

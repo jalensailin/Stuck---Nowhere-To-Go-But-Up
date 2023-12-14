@@ -18,7 +18,7 @@ StuckGame.Canvas = new Canvas(1280, 720);
 StuckGame.Canvas.initialize(416, 416);
 
 // Load our assets
-Load.sprites();
+await Load.sprites();
 
 // Create our Player singleton.
 StuckGame.Player = new Player("test-character-walking");

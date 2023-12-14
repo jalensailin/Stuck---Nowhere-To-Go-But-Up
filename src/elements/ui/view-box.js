@@ -3,19 +3,13 @@ import GameElement from "../game-element.js";
 
 export default class ViewBox extends GameElement {
   constructor(spriteName, options) {
-    super(options);
-    this.name = "viewBox";
-    this.spriteData = getSprite(spriteName); // Should this be defined in GameElement instead?
+    super("viewBox", spriteName, options || { scale: vec2(2) });
 
     const { initial } = this;
     // Any hard coded value here could instead be defined in options if we find ourselves changing it a lot.
-    initial.scale = vec2(2);
     initial.offset = vec2(12, 0);
     initial.opacity = 0.7;
     initial.height = 0.1; // Start sandwiched
-    initial.width = this.spriteData.data.width * initial.scale.x;
-
-    this.final.height = this.spriteData.data.height * initial.scale.y; // End at full height.
   }
 
   /**

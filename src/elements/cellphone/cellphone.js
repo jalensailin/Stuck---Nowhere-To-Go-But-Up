@@ -4,9 +4,8 @@ import CameraApp from "./camera-app.js";
 
 export default class Cellphone extends GameElement {
   constructor(options) {
-    super(options);
-    this.name = "cellphone";
-    this.spriteData = getSprite("cellphone"); // Should this be defined in GameElement instead?
+    super("cellphone", "cellphone", options);
+    // this.spriteData = getSprite("cellphone"); // Should this be defined in GameElement instead?
 
     const { initial } = this;
     initial.offset = vec2(1100, 1000);
@@ -51,7 +50,6 @@ export default class Cellphone extends GameElement {
     const parentComponents = super.getComponents();
     return [
       ...parentComponents,
-      sprite("cellphone"),
       rotate(),
       area(),
       anchor("center"),

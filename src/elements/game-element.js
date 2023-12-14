@@ -3,25 +3,33 @@ import Animations from "./animations.js";
 export default class GameElement {
   /**
    *
-   * @param {Number} width - Initial width
-   * @param {Number} height - Initial height
-   * @param {vec2}   [scale=vec2(1)] - Initial scale
-   * @param {vec2}   [offset=vec2(0)] - Initial offset from parent item.
-   * @param {Number} [opacity=1] - Initial opacity
+   * @param {String} name - name of this game element
+   * @param {String} spriteName - name of this game element's sprite
+   * @param {Object} options
+   * @param {Number} options.width - Initial width, must provide if no sprite
+   * @param {Number} options.height - Initial height, must provide if no sprite
+   * @param {vec2}   [options.scale=vec2(1)] - Initial scale
+   * @param {vec2}   [options.offset=vec2(0)] - Initial offset from parent item.
+   * @param {Number} [options.opacity=1] - Initial opacity
    */
-  constructor({
-    width,
-    height,
-    scale = vec2(1),
-    offset = vec2(0),
-    opacity = 1,
-  } = {}) {
-    this.name = "gameElement";
+  constructor(
+    name,
+    spriteName,
+    { width, height, scale = vec2(1), offset = vec2(0), opacity = 1 } = {},
+  ) {
+    this.name = name;
+    if (spriteName) {
+      this.spriteName = spriteName;
+      this.spriteData = getSprite(spriteName);
+    }
+
+    const spriteWidth = this.spriteData.data.width;
+    const spriteHeight = this.spriteData.data.height;
 
     // Define initial animation values.
     this.initial = {
-      width: width * scale.x,
-      height: height * scale.y,
+      width: (width || spriteWidth) * scale.x,
+      height: (height || spriteHeight) * scale.y,
       scale,
       offset,
       opacity,
@@ -45,7 +53,7 @@ export default class GameElement {
   }
 
   /**
-   * Render this UI Element.
+   * Render this Game Element.
    * May be overridden.
    *
    * @param {GameObj} parentObject
@@ -57,7 +65,7 @@ export default class GameElement {
   }
 
   /**
-   * Destroy this UI Element.
+   * Destroy this Game Element.
    * May be overridden.
    */
   async destroy() {
@@ -68,11 +76,12 @@ export default class GameElement {
 
   /**
    * Assemble components for building this game object.
-   * Should be overridden.
+   * Should be overridden and supered.
    */
   getComponents() {
     const { initial } = this;
     return [
+      sprite(this.spriteName),
       pos(initial.offset),
       opacity(initial.opacity),
       timer(),
@@ -92,7 +101,7 @@ export default class GameElement {
   }
 
   /**
-   * Full opacity when mouse hovers.
+   * Full opacity when mouse hovers and vice versa. Update this game obj and all children.
    * Note: Events get cancelled when the game object they are made from is destroyed.
    *
    * @param {Object} [options={}]

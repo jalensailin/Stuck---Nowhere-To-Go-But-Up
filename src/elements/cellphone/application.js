@@ -1,10 +1,9 @@
 import GameElement from "../game-element.js";
 
 export default class Application extends GameElement {
-  constructor(name, icon) {
-    super();
-    this.name = name;
-    this.icon = icon;
+  constructor(name, spriteName) {
+    super(name, spriteName);
+    this.icon = spriteName;
 
     // Create a list of listeners that can be created/cancelled when app is open/closed
     this.listeners = [];
@@ -34,7 +33,7 @@ export default class Application extends GameElement {
 
   getComponents() {
     const parentComponents = super.getComponents();
-    return [...parentComponents, sprite(this.icon), scale(0.3), area()];
+    return [...parentComponents, scale(0.3), area()];
   }
 
   /**
