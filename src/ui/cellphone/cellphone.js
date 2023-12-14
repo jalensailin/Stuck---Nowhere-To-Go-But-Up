@@ -18,6 +18,10 @@ export default class Cellphone extends UIElement {
     this.movementVector = vec2(0, 0);
     this.speed = 300;
 
+    // This will be a child of the cellphone object, and parent
+    // to app icons and other screen elements.
+    this.screenSpace = null;
+
     this.apps = {
       current: "none",
       camera: new CameraApp(),
@@ -27,10 +31,19 @@ export default class Cellphone extends UIElement {
   initialize(parentObject) {
     super.initialize(parentObject);
 
+    // Generate screenspace componenet
+    this.screenSpace = this.gameObj.add([
+      area({ shape: new Rect(vec2(0, 0), 245, 386) }),
+      pos(-110, -200),
+      "screenspace",
+      { name: "screenspace" },
+    ]);
+
     // Initialize all app icons.
     const apps = Object.values(this.apps).filter((a) => typeof a !== "string");
     for (const app of apps) {
-      app.initialize(this.gameObj);
+      // Apps are a child of the screenspace.
+      app.initialize(this.screenSpace);
     }
   }
 
@@ -82,7 +95,7 @@ export default class Cellphone extends UIElement {
         return;
       }
       this.initialize(parentObject);
-      this.setFadeOnHover();
+      this.setFadeOnHover({ excludedNames: ["screenspace"] });
     });
   }
 

@@ -8,6 +8,7 @@ export default class CameraApp extends Application {
     super();
     this.name = "camera";
     this.icon = "camera-icon";
+    this.initial.offset = vec2(14, 14);
   }
 
   /**

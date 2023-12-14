@@ -9,18 +9,19 @@ export default class Application extends UIElement {
     // Create a list of listeners that can be created/cancelled when app is open/closed
     this.listeners = [];
 
-    this.initial.offset = vec2(-88, -175);
-
     this.initial.opacity *= 0.5; // Half of parents opacity because layered transparents become more opaque.
   }
 
   /**
-   * Draw the app's icon when the phone "starts up".
+   * Draw the app's icon when the phone "starts up"
+   * and define onClick behavior.
+   *
    * @param {GameObj} parentObject
    */
   initialize(parentObject) {
     super.initialize(parentObject);
 
+    // Open/close app on click.
     this.gameObj.onClick(() => {
       const app = this.name;
       if (StuckGame.Cellphone.apps.current === app) {

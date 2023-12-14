@@ -94,11 +94,19 @@ export default class UIElement {
   /**
    * Full opacity when mouse hovers.
    * Note: Events get cancelled when the game object they are made from is destroyed.
+   *
+   * @param {Object} [options={}]
+   * @param {boolean} [options.recursive=true] - apply hover to all child objects
+   * @param {Array<String>} [options.excludedNames=[]] - exclude child object by name
    */
-  setFadeOnHover(recursive = true) {
+  setFadeOnHover({ recursive = true, excludedNames = [] } = {}) {
     const thisGameObj = this.gameObj;
     const childGameObjs = thisGameObj.get("*", { recursive });
-    const allGameObjs = childGameObjs.concat(thisGameObj); // This game object and its children
+
+    // This game object and its children, excluding specified names.
+    const allGameObjs = childGameObjs
+      .concat(thisGameObj)
+      .filter((gameObj) => !excludedNames.includes(gameObj.name));
 
     this.listeners.onHover = thisGameObj.onHover(() => {
       for (const gameObj of allGameObjs) {
