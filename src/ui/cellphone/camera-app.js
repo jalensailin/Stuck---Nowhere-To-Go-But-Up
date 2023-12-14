@@ -66,71 +66,82 @@ export default class CameraApp extends Application {
     this.listeners.push(rotatePhone);
 
     // Take a screenshot, crop, and download.
-    const _screenshot = onKeyPress("p", async () => {
+    const screenshotListener = onKeyPress("p", async () => {
       const photo = screenshot();
+      const canvasWidthActual = canvas.width;
+      const canvasHeightActual = canvas.height;
+      const canvasWidthOriginal = StuckGame.Canvas.width;
+      const canvasHeightOriginal = StuckGame.Canvas.height;
+
+      const ratio = {
+        x: canvasWidthActual / canvasWidthOriginal,
+        y: canvasHeightActual / canvasHeightOriginal,
+      };
+
+      const bbx = Cellphone.gameObj.screenArea().bbox();
+      const screenshotData = {
+        offsetX: bbx.pos.x * ratio.x,
+        offsetY: bbx.pos.y * ratio.y,
+        width: bbx.width * ratio.x,
+        height: bbx.height * ratio.y,
+      };
+
       await loadSpriteAtlas(photo, {
-        fol: {
-          x: Cellphone.gameObj.screenPos().x - 125,
-          y: Cellphone.gameObj.screenPos().y - 380,
-          width: 300,
-          height: 730,
+        screenshot: {
+          x: screenshotData.offsetX,
+          y: screenshotData.offsetY,
+          width: screenshotData.width,
+          height: screenshotData.height,
         },
       });
-      add([
-        sprite("fol"),
-        pos(200, 30),
+      StuckGame.Player.gameObj.add([
+        sprite("screenshot"),
+        pos(0, 0),
         scale(0.2),
-        outline(RED),
+        opacity(),
         lifespan(1, { fade: 0.5 }),
       ]);
 
-      /**
-       * @param {*GameObj} gameObj
-       * @param {String} uri - base64 encoded image uri
-       * @param {String} name - name of exported image
-       */
-      async function downloadURI(gameObj, uri, name) {
-        const image = new Image();
+      const image = new Image();
 
-        // We have to make sure the actual image source is loaded before drawing and
-        // exporting a (potentially) blank image. We make sure `onload` resolves the
-        // promise where we set the src.
-        await new Promise((resolve) => {
-          image.onload = resolve;
-          image.src = uri;
-        });
+      // We have to make sure the actual image source is loaded before drawing and
+      // exporting a (potentially) blank image. We make sure `onload` resolves the
+      // promise where we set the src.
+      await new Promise((resolve) => {
+        image.onload = resolve;
+        image.src = photo;
+      });
 
-        // Create a canvas element so we can draw an image on it, and then export it.
-        const canvas = document.createElement("canvas");
-        canvas.width = 315;
-        canvas.height = 523;
-        const context = canvas.getContext("2d");
-        context.drawImage(
-          image, // Image source
-          gameObj.screenPos().x - 125, // X Offset of source
-          gameObj.screenPos().y - 150, // Y Offset of source
-          315, // Width of source
-          523, // Height of source
-          0, // X Offset of image on destination canvas
-          0, // Y Offest of same
-          canvas.width, // Width of destination
-          canvas.height, // Height of destination
-        );
-        // Convert our canvas into a data url.
-        const croppedURL = canvas.toDataURL();
+      // Create a canvas element so we can draw an image on it, and then export it.
+      const newCanvas = document.createElement("canvas");
+      newCanvas.width = screenshotData.width;
+      newCanvas.height = screenshotData.height;
+      const context = newCanvas.getContext("2d");
 
-        // Make a link from which the image can be downloaded.
-        const link = document.createElement("a");
-        link.download = name;
-        link.href = croppedURL;
-        document.body.appendChild(link);
-        link.click(); // Force click.
-        document.body.removeChild(link);
-      }
-      downloadURI(Cellphone.gameObj, photo, "helloWorld.png");
+      context.drawImage(
+        image, // Image source
+        screenshotData.offsetX, // X Offset of source
+        screenshotData.offsetY, // Y Offset of source
+        screenshotData.width, // Width of source
+        screenshotData.height, // Height of source
+        0, // X Offset of image on destination newCanvas
+        0, // Y Offest of same
+        screenshotData.width, // Width of destination
+        screenshotData.height, // Height of destination
+      );
+      // Convert our newCanvas into a data url.
+      const croppedURL = newCanvas.toDataURL();
+
+      // Make a link from which the image can be downloaded.
+      const link = document.createElement("a");
+      link.download = "helloWorld.png";
+      link.href = croppedURL;
+      document.body.appendChild(link);
+      link.click(); // Force click.
+      document.body.removeChild(link);
     });
 
-    this.listeners.push(_screenshot);
+    this.listeners.push(screenshotListener);
   }
 
   setPhoneCameraMovement() {
