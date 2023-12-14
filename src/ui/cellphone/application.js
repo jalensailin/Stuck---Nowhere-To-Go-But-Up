@@ -1,6 +1,6 @@
-import UIElement from "../ui-elements/ui-element.js";
+import GameElement from "../elements/game-element.js";
 
-export default class Application extends UIElement {
+export default class Application extends GameElement {
   constructor(name, icon) {
     super();
     this.name = name;

@@ -1,11 +1,11 @@
 import Animations from "../animations.js";
-import UIElement from "./ui-element.js";
+import GameElement from "./game-element.js";
 
-export default class ViewBox extends UIElement {
+export default class ViewBox extends GameElement {
   constructor(spriteName, options) {
     super(options);
     this.name = "viewBox";
-    this.spriteData = getSprite(spriteName); // Should this be defined in UIElement instead?
+    this.spriteData = getSprite(spriteName); // Should this be defined in GameElement instead?
 
     const { initial } = this;
     // Any hard coded value here could instead be defined in options if we find ourselves changing it a lot.

@@ -1,6 +1,6 @@
 import Animations from "../animations.js";
 
-export default class UIElement {
+export default class GameElement {
   /**
    *
    * @param {Number} width - Initial width
@@ -16,7 +16,7 @@ export default class UIElement {
     offset = vec2(0),
     opacity = 1,
   } = {}) {
-    this.name = "uiElement";
+    this.name = "gameElement";
 
     // Define initial animation values.
     this.initial = {

@@ -1,12 +1,12 @@
 import Animations from "../animations.js";
-import UIElement from "../ui-elements/ui-element.js";
+import GameElement from "../elements/game-element.js";
 import CameraApp from "./camera-app.js";
 
-export default class Cellphone extends UIElement {
+export default class Cellphone extends GameElement {
   constructor(options) {
     super(options);
     this.name = "cellphone";
-    this.spriteData = getSprite("cellphone"); // Should this be defined in UIElement instead?
+    this.spriteData = getSprite("cellphone"); // Should this be defined in GameElement instead?
 
     const { initial } = this;
     initial.offset = vec2(1100, 1000);
