@@ -77,7 +77,7 @@ export default class UIElement {
       opacity(initial.opacity),
       timer(),
       this.name,
-      { [this.name]: this },
+      { [this.name]: this, name: this.name },
     ];
   }
 
@@ -95,14 +95,23 @@ export default class UIElement {
    * Full opacity when mouse hovers.
    * Note: Events get cancelled when the game object they are made from is destroyed.
    */
-  setFadeOnHover() {
-    const { gameObj } = this;
-    this.listeners.onHover = gameObj.onHover(() => {
-      Animations.Fade(gameObj, gameObj.opacity, this.final.opacity, 0.2);
+  setFadeOnHover(recursive = true) {
+    const thisGameObj = this.gameObj;
+    const childGameObjs = thisGameObj.get("*", { recursive });
+    const allGameObjs = childGameObjs.concat(thisGameObj); // This game object and its children
+
+    this.listeners.onHover = thisGameObj.onHover(() => {
+      for (const gameObj of allGameObjs) {
+        const finalOpacity = gameObj[gameObj.name].final.opacity;
+        Animations.Fade(gameObj, gameObj.opacity, finalOpacity, 0.2);
+      }
     });
 
-    this.listeners.onHoverEnd = gameObj.onHoverEnd(() => {
-      Animations.Fade(gameObj, gameObj.opacity, this.initial.opacity, 0.2);
+    this.listeners.onHoverEnd = thisGameObj.onHoverEnd(() => {
+      for (const gameObj of allGameObjs) {
+        const initialOpacity = gameObj[gameObj.name].initial.opacity;
+        Animations.Fade(gameObj, gameObj.opacity, initialOpacity, 0.2);
+      }
     });
   }
 }

@@ -1,9 +1,39 @@
-export default class Application {
-  constructor(name) {
+import UIElement from "../ui-elements/ui-element.js";
+
+export default class Application extends UIElement {
+  constructor(name, icon) {
+    super();
     this.name = name;
+    this.icon = icon;
 
     // Create a list of listeners that can be created/cancelled when app is open/closed
     this.listeners = [];
+
+    this.initial.offset = vec2(-88, -175);
+
+    this.initial.opacity = 0.4;
+  }
+
+  /**
+   * Draw the app's icon when the phone "starts up".
+   * @param {GameObj} parentObject
+   */
+  initialize(parentObject) {
+    super.initialize(parentObject);
+
+    this.gameObj.onClick(() => {
+      const app = this.name;
+      if (StuckGame.Cellphone.apps.current === app) {
+        StuckGame.Cellphone.closeApp(app);
+        return;
+      }
+      StuckGame.Cellphone.startApp(app);
+    });
+  }
+
+  getComponents() {
+    const parentComponents = super.getComponents();
+    return [...parentComponents, sprite(this.icon), scale(0.3), area()];
   }
 
   /**

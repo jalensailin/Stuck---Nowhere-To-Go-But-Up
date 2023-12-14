@@ -10,6 +10,7 @@ export default class Load {
     );
 
     loadSprite("cellphone", "../../assets/cellphone/test-cellphone.png");
+    loadSprite("camera-icon", "../../assets/cellphone/camera-app-icon.png");
 
     loadSpriteAtlas("../../assets/comfy-interior-global-limited.png", {
       "the-shining": {

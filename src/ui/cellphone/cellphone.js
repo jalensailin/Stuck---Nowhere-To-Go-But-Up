@@ -24,6 +24,16 @@ export default class Cellphone extends UIElement {
     };
   }
 
+  initialize(parentObject) {
+    super.initialize(parentObject);
+
+    // Initialize all app icons.
+    const apps = Object.values(this.apps).filter((a) => typeof a !== "string");
+    for (const app of apps) {
+      app.initialize(this.gameObj);
+    }
+  }
+
   getComponents() {
     const parentComponents = super.getComponents();
     return [
@@ -39,9 +49,11 @@ export default class Cellphone extends UIElement {
 
   startApp(appName) {
     if (!this.gameObj) return;
-    Object.values(this.listeners).forEach((l) => {
-      l.paused = true;
-    });
+    Object.values(this.listeners)
+      .flat()
+      .forEach((l) => {
+        l.paused = true;
+      });
     this.apps[appName].start();
     this.apps.current = appName;
   }
@@ -49,9 +61,11 @@ export default class Cellphone extends UIElement {
   async closeApp(appName) {
     if (!this.gameObj) return;
     await this.apps[appName].close();
-    Object.values(this.listeners).forEach((l) => {
-      l.paused = false;
-    });
+    Object.values(this.listeners)
+      .flat()
+      .forEach((l) => {
+        l.paused = false;
+      });
     this.apps.current = "none";
   }
 
@@ -69,16 +83,6 @@ export default class Cellphone extends UIElement {
       }
       this.initialize(parentObject);
       this.setFadeOnHover();
-    });
-
-    onKeyPress("q", () => {
-      if (!this.gameObj) return;
-      const app = "camera";
-      if (this.apps.current === app) {
-        this.closeApp(app);
-        return;
-      }
-      this.startApp(app);
     });
   }
 

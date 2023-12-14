@@ -7,6 +7,7 @@ export default class CameraApp extends Application {
   constructor() {
     super();
     this.name = "camera";
+    this.icon = "camera-icon";
   }
 
   /**
