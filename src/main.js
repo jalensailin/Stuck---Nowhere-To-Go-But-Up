@@ -21,7 +21,7 @@ StuckGame.Canvas.initialize(416, 416);
 await Load.sprites();
 
 // Create our Player singleton.
-StuckGame.Player = new Player("test-character-walking");
+StuckGame.Player = new Player("character-walking");
 
 // Create our Cellphone singleton.
 StuckGame.Cellphone = new Cellphone();

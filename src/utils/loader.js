@@ -52,8 +52,8 @@ export default class Load {
       ),
 
       loadSprite(
-        "test-character-walking",
-        "../../assets/character-sprites/test-character-walking-anims.png",
+        "character-walking",
+        "../../assets/character-sprites/character-walking-anims.png",
         {
           sliceX: 4,
           sliceY: 4,
