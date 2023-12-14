@@ -17,7 +17,11 @@ export default class CameraApp extends Application {
   startAnimation() {
     const { Cellphone } = StuckGame;
     const animations = [
+      // Fade this app icon.
+      Animations.Fade(this.gameObj, this.gameObj.opacity, 0.2, 2),
+      // Fade the whole cellphone.
       Animations.Fade(Cellphone.gameObj, Cellphone.gameObj.opacity, 0.5, 2),
+      // Slide this whole cellphone.
       Animations.Slide(Cellphone.gameObj, Cellphone.gameObj.pos, center(), 2),
     ];
     return Promise.all(animations);
@@ -30,12 +34,21 @@ export default class CameraApp extends Application {
   closeAnimation() {
     const { Cellphone } = StuckGame;
     const animations = [
+      // Fade this app icon.
+      Animations.Fade(
+        this.gameObj,
+        this.gameObj.opacity,
+        this.initial.opacity,
+        2,
+      ),
+      // Fade the whole cellphone.
       Animations.Fade(
         Cellphone.gameObj,
         Cellphone.gameObj.opacity,
         Cellphone.initial.opacity,
         2,
       ),
+      // Slide this whole cellphone.
       Animations.Slide(
         Cellphone.gameObj,
         Cellphone.gameObj.pos,

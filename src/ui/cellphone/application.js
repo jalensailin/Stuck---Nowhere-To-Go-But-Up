@@ -11,7 +11,7 @@ export default class Application extends UIElement {
 
     this.initial.offset = vec2(-88, -175);
 
-    this.initial.opacity = 0.4;
+    this.initial.opacity *= 0.5; // Half of parents opacity because layered transparents become more opaque.
   }
 
   /**
