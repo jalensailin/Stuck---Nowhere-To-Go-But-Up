@@ -8,7 +8,7 @@ export default class Animations {
    * @param {Number} duration
    * @returns
    */
-  static async Fade(gameObj, initial, final, duration) {
+  static Fade(gameObj, initial, final, duration) {
     return gameObj.tween(
       initial,
       final,
@@ -29,7 +29,7 @@ export default class Animations {
    * @param {Number} duration
    * @returns
    */
-  static async SlideVertical(gameObj, initial, final, duration) {
+  static SlideVertical(gameObj, initial, final, duration) {
     return gameObj.tween(
       initial,
       final,
@@ -50,7 +50,7 @@ export default class Animations {
    * @param {Number} duration
    * @returns
    */
-  static async Slide(gameObj, initial, final, duration) {
+  static Slide(gameObj, initial, final, duration) {
     return gameObj.tween(
       initial,
       final,
@@ -71,7 +71,7 @@ export default class Animations {
    * @param {Number} duration
    * @returns
    */
-  static async Stretch(gameObj, initial, final, duration) {
+  static Stretch(gameObj, initial, final, duration) {
     return gameObj.tween(
       initial,
       final,
@@ -90,7 +90,7 @@ export default class Animations {
    * @param {Number} duration
    * @returns
    */
-  static async CameraFollow(gameObj, duration) {
+  static CameraFollow(gameObj, duration) {
     return tween(
       camPos(), // initial position
       gameObj.worldPos(), // target position

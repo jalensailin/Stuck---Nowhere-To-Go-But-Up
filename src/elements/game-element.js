@@ -6,16 +6,32 @@ export default class GameElement {
    * @param {String} name - name of this game element
    * @param {String} spriteName - name of this game element's sprite
    * @param {Object} options
-   * @param {Number} options.width - Initial width, must provide if no sprite
-   * @param {Number} options.height - Initial height, must provide if no sprite
-   * @param {vec2}   [options.scale=vec2(1)] - Initial scale
-   * @param {vec2}   [options.offset=vec2(0)] - Initial offset from parent item.
-   * @param {Number} [options.opacity=1] - Initial opacity
+   * @param {Number} options.initialWidth - Initial width, must provide if no sprite
+   * @param {Number} options.initialHeight - Initial height, must provide if no sprite
+   * @param {vec2}   [options.initialScale=vec2(1)] - Initial scale
+   * @param {vec2}   [options.initialOffset=vec2(0)] - Initial offset from parent item.
+   * @param {Number} [options.initialOpacity=1] - Initial opacity
+   * @param {Number} options.finalWidth - Final width, must provide if no sprite
+   * @param {Number} options.finalHeight - Final height, must provide if no sprite
+   * @param {vec2}   options.finalScale - Final scale
+   * @param {vec2}   options.finalOffset - Final offset from parent item.
+   * @param {Number} options.finalOpacity - Final opacity
    */
   constructor(
     name,
     spriteName,
-    { width, height, scale = vec2(1), offset = vec2(0), opacity = 1 } = {},
+    {
+      initialWidth,
+      initialHeight,
+      initialScale = vec2(1),
+      initialOffset = vec2(0),
+      initialOpacity = 1,
+      finalWidth,
+      finalHeight,
+      finalScale,
+      finalOffset,
+      finalOpacity,
+    } = {},
   ) {
     this.name = name;
     if (spriteName) {
@@ -28,20 +44,22 @@ export default class GameElement {
 
     // Define initial animation values.
     this.initial = {
-      width: (width || spriteWidth) * scale.x,
-      height: (height || spriteHeight) * scale.y,
-      scale,
-      offset,
-      opacity,
+      width: (initialWidth || spriteWidth) * initialScale.x,
+      height: (initialHeight || spriteHeight) * initialScale.y,
+      scale: initialScale,
+      offset: initialOffset,
+      opacity: initialOpacity,
     };
 
     // Define final animation values (default same as initial).
     this.final = {
-      width: this.initial.width,
-      height: this.initial.height,
-      scale: this.initial.scale.clone(),
-      offset: this.initial.offset.clone(),
-      opacity: this.initial.opacity,
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      width: finalWidth * finalScale?.x || this.initial.width,
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      height: finalHeight * finalScale?.y || this.initial.height,
+      scale: finalScale || this.initial.scale.clone(),
+      offset: finalOffset || this.initial.offset.clone(),
+      opacity: finalOpacity || this.initial.opacity,
     };
 
     this.gameObj = null;

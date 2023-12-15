@@ -3,7 +3,7 @@ import GameElement from "../game-element.js";
 
 export default class ViewBox extends GameElement {
   constructor(spriteName, options) {
-    super("viewBox", spriteName, options || { scale: vec2(2) });
+    super("viewBox", spriteName, options || { initialScale: vec2(2) });
 
     const { initial } = this;
     // Any hard coded value here could instead be defined in options if we find ourselves changing it a lot.
@@ -46,11 +46,11 @@ export default class ViewBox extends GameElement {
    * @override
    */
   playOpenAnimation() {
-    Animations.Stretch(
+    return Animations.Stretch(
       this.gameObj,
       this.initial.height,
       this.final.height,
-      0.5,
+      0.5 * (this.final.height / 60), // Half a second for every 60 pixels.
     );
   }
 
@@ -60,7 +60,7 @@ export default class ViewBox extends GameElement {
    */
   async playCloseAnimation() {
     const currentHeight = this.gameObj.height;
-    await Animations.Stretch(
+    return Animations.Stretch(
       this.gameObj,
       currentHeight,
       this.initial.height,
