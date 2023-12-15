@@ -20,6 +20,7 @@ export default class Cellphone extends GameElement {
     // This will be a child of the cellphone object, and parent
     // to app icons and other screen elements.
     this.screenSpace = null;
+    this.homeButton = null;
 
     this.apps = {
       current: "none",
@@ -36,6 +37,12 @@ export default class Cellphone extends GameElement {
       pos(-110, -200),
       "screenspace",
       { name: "screenspace" },
+    ]);
+    this.homeButton = this.gameObj.add([
+      area({ shape: new Rect(vec2(0, 0), 45, 45) }),
+      pos(-10, 200),
+      "homeButton",
+      { name: "homeButton" },
     ]);
 
     // Initialize all app icons.
@@ -93,7 +100,12 @@ export default class Cellphone extends GameElement {
         return;
       }
       this.initialize(parentObject);
-      this.setFadeOnHover({ excludedNames: ["screenspace"] });
+      this.setFadeOnHover({ excludedNames: ["screenspace", "homeButton"] });
+    });
+
+    onClick("homeButton", () => {
+      if (this.apps.current === "none") return;
+      this.closeApp(this.apps.current);
     });
   }
 

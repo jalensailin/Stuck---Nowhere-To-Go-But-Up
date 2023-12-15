@@ -23,10 +23,7 @@ export default class Application extends GameElement {
     // Open/close app on click.
     this.gameObj.onClick(() => {
       const app = this.name;
-      if (StuckGame.Cellphone.apps.current === app) {
-        StuckGame.Cellphone.closeApp(app);
-        return;
-      }
+      if (StuckGame.Cellphone.apps.current === app) return;
       StuckGame.Cellphone.startApp(app);
     });
   }
