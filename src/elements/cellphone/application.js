@@ -38,6 +38,7 @@ export default class Application extends GameElement {
    */
   async start() {
     await this.startAnimation();
+    StuckGame.Cellphone.listeners.homeButton.paused = false; // Resume homeButton listener once app is opened.
     this.setApplicationListeners();
   }
 

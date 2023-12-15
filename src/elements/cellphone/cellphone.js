@@ -103,7 +103,7 @@ export default class Cellphone extends GameElement {
       this.setFadeOnHover({ excludedNames: ["screenspace", "homeButton"] });
     });
 
-    onClick("homeButton", () => {
+    this.listeners.homeButton = onClick("homeButton", () => {
       if (this.apps.current === "none") return;
       this.closeApp(this.apps.current);
     });
