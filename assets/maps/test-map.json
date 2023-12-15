@@ -151,6 +151,29 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
+         "id":8,
+         "name":"SpawnPoints",
+         "objects":[
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"playerStart",
+                 "point":true,
+                 "rotation":0,
+                 "type":"player",
+                 "visible":true,
+                 "width":0,
+                 "x":192,
+                 "y":128
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -184,29 +207,6 @@
          "type":"tilelayer",
          "visible":true,
          "width":26,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":8,
-         "name":"SpawnPoints",
-         "objects":[
-                {
-                 "height":0,
-                 "id":14,
-                 "name":"player",
-                 "point":true,
-                 "rotation":0,
-                 "type":"spawnPoint",
-                 "visible":true,
-                 "width":0,
-                 "x":192,
-                 "y":128
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -260,7 +260,7 @@
                  "y":352
                 }, 
                 {
-                 "height":16,
+                 "height":16.0625,
                  "id":8,
                  "name":"",
                  "rotation":0,
@@ -268,10 +268,10 @@
                  "visible":true,
                  "width":16,
                  "x":80,
-                 "y":240
+                 "y":239.9375
                 }, 
                 {
-                 "height":16,
+                 "height":16.0625,
                  "id":9,
                  "name":"",
                  "rotation":0,
@@ -279,7 +279,7 @@
                  "visible":true,
                  "width":16,
                  "x":80,
-                 "y":192
+                 "y":191.9375
                 }, 
                 {
                  "height":16,
@@ -310,8 +310,8 @@
                  "rotation":0,
                  "type":"objectBoundary",
                  "visible":true,
-                 "width":32,
-                 "x":256,
+                 "width":23,
+                 "x":261,
                  "y":96
                 }, 
                 {
