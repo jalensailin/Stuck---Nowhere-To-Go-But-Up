@@ -18,25 +18,27 @@ export default class ViewBox extends GameElement {
    * @param {GameObj} parentObject
    */
   initialize(parentObject) {
-    super.initialize(parentObject);
+    // The name of the sprite should be the parent object's name.
+    super.initialize(parentObject, { spriteName: parentObject.name });
     this.setFadeOnHover();
   }
 
   /**
    * Override: Assembles components for building the game object.
    *
-   * @param {*} parentObject
+   * @param {Object} options
+   * @param {String} options.spriteName
    * @override
    * @returns {CompList}
    */
-  getComponents(parentObject) {
-    const parentComponents = super.getComponents(parentObject);
+  getComponents({ spriteName } = {}) {
+    const parentComponents = super.getComponents();
     const { initial } = this;
-    const spriteComponent = sprite(parentObject.name, {
+    const spriteComponent = sprite(spriteName, {
       width: initial.width,
       height: initial.height,
     });
-    return [...parentComponents, spriteComponent, area(), timer()];
+    return [...parentComponents, spriteComponent, area()];
   }
 
   /**

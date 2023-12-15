@@ -57,9 +57,10 @@ export default class GameElement {
    * May be overridden.
    *
    * @param {GameObj} parentObject
+   * @param {Object} options - options that can customize this fxn's or getComponent's behavior
    */
-  initialize(parentObject) {
-    const componentList = this.getComponents(parentObject);
+  initialize(parentObject, options) {
+    const componentList = this.getComponents(options);
     this.gameObj = parentObject.add(componentList);
     this.playOpenAnimation();
   }
@@ -77,6 +78,8 @@ export default class GameElement {
   /**
    * Assemble components for building this game object.
    * Should be overridden and supered.
+   *
+   * @returns {Array<GameComponent>}
    */
   getComponents() {
     const { initial } = this;

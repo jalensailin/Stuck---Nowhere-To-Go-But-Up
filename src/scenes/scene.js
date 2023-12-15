@@ -14,6 +14,7 @@ export default class Scene {
     this.cameras = {
       player: new SubjectCamera(this.entities.player, { scale: 4 }),
     };
+    this.spawnPoints = {};
   }
 
   /**
@@ -37,12 +38,16 @@ export default class Scene {
       // Spawn entities
       if (layer.name === "SpawnPoints") {
         for (const spawnPoint of layer.objects) {
+          this.spawnPoints[spawnPoint.name] = vec2(spawnPoint.x, spawnPoint.y);
           // Add the player game object at the spawn point's coordinates.
-          player.initialize(this.map, vec2(spawnPoint.x, spawnPoint.y));
-          continue;
         }
+        const { playerStart } = this.spawnPoints;
+        player.initialize(this.map, {
+          spawnPoint: vec2(playerStart.x, playerStart.y),
+        });
       }
     }
+
     this.cameras.player.initialize(); // Initialize Player Camera
     StuckGame.Cellphone.setPhoneListeners(this.map);
     this.setCollisions();

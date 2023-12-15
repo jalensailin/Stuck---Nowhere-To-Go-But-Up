@@ -1,20 +1,42 @@
 import STUCK from "../../config.js";
 import MovementUtils from "../../utils/movement.js";
+import GameElement from "../game-element.js";
 
-export default class Player {
-  constructor(spriteName) {
-    this.sprite = spriteName;
+export default class Player extends GameElement {
+  constructor(spriteName, options) {
+    super("player", spriteName, options);
     this.speed = 100;
     this.direction = "down";
     this.movementVector = vec2(0, 0);
     this.gameObj = null; // Game object will get defined on initialization.
   }
 
-  initialize(parentObj, position) {
-    // Add and set the game object.
-    this.gameObj = parentObj.add([
+  /**
+   * Spawn the player somewhere.
+   * We override this function (without calling the super)
+   *
+   * @override
+   * @param {GameObj} parentObj - The map on which to spawn this entity.
+   * @param {Object} options - Options customizing init behavior.
+   * @param {Vec2} options.spawnPoint - Where to spawn this entity.
+   */
+  initialize(parentObj, options) {
+    super.initialize(parentObj, options);
+    this.setMovement();
+  }
+
+  /**
+   *
+   * @param {Object} options - Options customizing init behavior.
+   * @param {Vec2} options.spawnPoint - Where to spawn this entity.
+   * @returns {Array<GameComponent>}
+   */
+  getComponents({ spawnPoint } = {}) {
+    const parentComponents = super.getComponents();
+    return [
+      ...parentComponents,
       // Create a sprite
-      sprite(this.sprite, {
+      sprite(this.spriteName, {
         width: 16,
         height: 16,
         anim: "green-down-idle",
@@ -24,15 +46,9 @@ export default class Player {
       area({ shape: new Rect(vec2(3, 4), 10, 12) }),
       // Body component tells kaboom to make object affected by physics
       body(),
-      pos(position),
+      pos(spawnPoint),
       opacity(),
-      // Pass in strings which are interpreted as tags by which the entity can be identified later.
-      "player",
-      {
-        player: this,
-      },
-    ]);
-    this.setMovement();
+    ];
   }
 
   /**
