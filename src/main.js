@@ -27,7 +27,7 @@ StuckGame.Player = new Player("character-walking");
 StuckGame.Cellphone = new Cellphone();
 
 // Load the map data.
-const testMapData = await Load.mapData("test-map");
+const testMapData = await Load.mapData("test-map-2");
 
 // Attach scenes to the canvas
 StuckGame.scenes = {

@@ -73,7 +73,7 @@ export default class Scene {
       if (tile === 0) continue;
 
       this.map.add([
-        sprite("comfy-interior", { frame: tile - 1 }),
+        sprite("stuck-test", { frame: tile - 1 }),
         pos(tilePos), // Give the sprite the correct vector (vec2)
         offscreen(), // Lowers rendering time
       ]);

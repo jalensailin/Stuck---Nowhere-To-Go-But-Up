@@ -9,6 +9,10 @@ export default class Load {
           sliceY: 128,
         },
       ),
+      loadSprite("stuck-test", "../../assets/test-stuck-sprites.png", {
+        sliceX: 17,
+        sliceY: 11,
+      }),
 
       loadSprite("cellphone", "../../assets/cellphone/test-cellphone.png"),
       loadSprite("camera-icon", "../../assets/cellphone/camera-app-icon.png"),
