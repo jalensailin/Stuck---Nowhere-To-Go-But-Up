@@ -1,7 +1,7 @@
 import Application from "./application.js";
-import Animations from "../animations.js";
-import MovementUtils from "../../utils/movement.js";
-import STUCK from "../../config.js";
+import Animations from "../../animations.js";
+import MovementUtils from "../../../utils/movement.js";
+import STUCK from "../../../config.js";
 
 export default class CameraApp extends Application {
   constructor() {

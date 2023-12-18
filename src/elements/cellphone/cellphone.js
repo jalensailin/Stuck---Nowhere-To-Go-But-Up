@@ -1,6 +1,6 @@
 import Animations from "../animations.js";
 import GameElement from "../game-element.js";
-import CameraApp from "./camera-app.js";
+import CameraApp from "./applications/camera-app.js";
 
 export default class Cellphone extends GameElement {
   constructor(options) {

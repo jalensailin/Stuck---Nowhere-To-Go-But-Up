@@ -1,4 +1,4 @@
-import GameElement from "../game-element.js";
+import GameElement from "../../game-element.js";
 
 export default class Application extends GameElement {
   constructor(name, spriteName) {
@@ -30,7 +30,11 @@ export default class Application extends GameElement {
 
   getComponents() {
     const parentComponents = super.getComponents();
-    return [...parentComponents, scale(0.3), area()];
+    return [
+      ...parentComponents,
+      sprite(this.spriteName, { width: 60, height: 60 }),
+      area(),
+    ];
   }
 
   /**
