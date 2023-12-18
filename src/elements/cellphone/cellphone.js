@@ -1,6 +1,7 @@
 import Animations from "../animations.js";
 import GameElement from "../game-element.js";
 import CameraApp from "./applications/camera-app.js";
+import MessagesApp from "./applications/messages-app.js";
 
 export default class Cellphone extends GameElement {
   constructor(options) {
@@ -26,6 +27,7 @@ export default class Cellphone extends GameElement {
     this.apps = {
       current: "none",
       camera: new CameraApp(),
+      messages: new MessagesApp(),
     };
   }
 
@@ -37,8 +39,9 @@ export default class Cellphone extends GameElement {
     // /////////////////////////////// //
     // Generate Screenspace area.
     this.screenSpace = this.gameObj.add([
-      area({ shape: new Rect(vec2(0, 0), 241, 386) }),
-      pos(-108, -198),
+      pos(-108, -197),
+      rect(240, 386),
+      mask(),
       "screenspace",
       { name: "screenspace" },
     ]);

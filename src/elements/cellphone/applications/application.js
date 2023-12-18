@@ -1,3 +1,4 @@
+import Animations from "../../animations.js";
 import GameElement from "../../game-element.js";
 
 export default class Application extends GameElement {
@@ -56,17 +57,31 @@ export default class Application extends GameElement {
   }
 
   /**
-   * Override this for individual apps.
+   * Override/super this for individual apps.
    */
   startAnimation() {
-    // Override this for individual apps.
+    const { Cellphone } = StuckGame;
+    // Fade all children, excluding objects with the tags in the last argument.
+    return Promise.all(
+      Animations.FadeChildren(Cellphone.gameObj, 1, 0, 0.3, [
+        "screenspace",
+        "homeButton",
+      ]),
+    );
   }
 
   /**
-   * Override this for individual apps.
+   * Override/super this for individual apps.
    */
   closeAnimation() {
-    // Override this for individual apps.
+    const { Cellphone } = StuckGame;
+    // Fade all children, excluding objects with the tags in the last argument.
+    return Promise.all(
+      Animations.FadeChildren(Cellphone.gameObj, 0, 1, 0.3, [
+        "screenspace",
+        "homeButton",
+      ]),
+    );
   }
 
   /**

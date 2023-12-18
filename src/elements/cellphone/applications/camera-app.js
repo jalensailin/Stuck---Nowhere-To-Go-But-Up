@@ -15,17 +15,10 @@ export default class CameraApp extends Application {
    */
   startAnimation() {
     const { Cellphone } = StuckGame;
+    super.startAnimation();
     const animations = [
       // Fade the whole cellphone.
       Animations.Fade(Cellphone.gameObj, Cellphone.gameObj.opacity, 0.5, 2),
-      // Fade all children of the cellphone, excluding objects with the tags in the last argument.
-      ...Animations.FadeChildren(
-        Cellphone.gameObj,
-        this.gameObj.opacity,
-        0,
-        0.3,
-        ["screenspace", "homeButton"],
-      ),
       // Slide this whole cellphone.
       Animations.Slide(Cellphone.gameObj, Cellphone.gameObj.pos, center(), 2),
     ];
@@ -36,16 +29,9 @@ export default class CameraApp extends Application {
    * Slide back to open position and become (less) transparent.
    * @returns {Promise}
    */
-  closeAnimation() {
+  async closeAnimation() {
     const { Cellphone } = StuckGame;
     const animations = [
-      // Fade this app icon.
-      Animations.Fade(
-        this.gameObj,
-        this.gameObj.opacity,
-        this.initial.opacity,
-        2,
-      ),
       // Fade the whole cellphone.
       Animations.Fade(
         Cellphone.gameObj,
@@ -62,7 +48,8 @@ export default class CameraApp extends Application {
       ),
       Animations.Rotate(Cellphone.gameObj, Cellphone.gameObj.angle, 0, 2),
     ];
-    return Promise.all(animations);
+    await Promise.all(animations);
+    return super.closeAnimation();
   }
 
   /**

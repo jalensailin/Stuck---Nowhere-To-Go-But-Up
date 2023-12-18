@@ -14,8 +14,13 @@ export default class Load {
         sliceY: 11,
       }),
 
+      // Load Cellphone and associated sprites
       loadSprite("cellphone", "../../assets/cellphone/test-cellphone.png"),
       loadSprite("camera-icon", "../../assets/cellphone/camera-app-icon.png"),
+      loadSprite(
+        "messages-icon",
+        "../../assets/cellphone/messages-app-icon.png",
+      ),
 
       loadSpriteAtlas("../../assets/comfy-interior-global-limited.png", {
         "the-shining": {
