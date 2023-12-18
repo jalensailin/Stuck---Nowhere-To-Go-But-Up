@@ -140,14 +140,16 @@ export default class GameElement {
 
     this.listeners.onHover = thisGameObj.onHover(() => {
       for (const gameObj of allGameObjs) {
-        const finalOpacity = gameObj[gameObj.name].final.opacity;
+        const finalOpacity =
+          gameObj[gameObj.name]?.final?.opacity || gameObj.finalOpacity; // If the GameElement doesnt have opacity defined, use data on child GameObj
         Animations.Fade(gameObj, gameObj.opacity, finalOpacity, 0.2);
       }
     });
 
     this.listeners.onHoverEnd = thisGameObj.onHoverEnd(() => {
       for (const gameObj of allGameObjs) {
-        const initialOpacity = gameObj[gameObj.name].initial.opacity;
+        const initialOpacity =
+          gameObj[gameObj.name]?.initial?.opacity || gameObj.initialOpacity; // If the GameElement doesnt have opacity defined, use data on child GameObj
         Animations.Fade(gameObj, gameObj.opacity, initialOpacity, 0.2);
       }
     });

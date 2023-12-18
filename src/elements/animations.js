@@ -21,6 +21,50 @@ export default class Animations {
   }
 
   /**
+   * Fade the children of provided game object.
+   *
+   * @param {GameObj} gameObj
+   * @param {Number} initial
+   * @param {Number} final
+   * @param {Number} duration
+   * @param {Array<String>} excludedNames - array of child tags to exclude
+   * @returns
+   */
+  static FadeChildren(gameObj, initial, final, duration, excludedNames = []) {
+    const allObjects = gameObj
+      .get("*", { recursive: true })
+      .filter((obj) => !excludedNames.includes(obj?.name));
+
+    const anims = [];
+    for (const object of allObjects) {
+      anims.push(
+        object.tween(
+          initial,
+          final,
+          duration,
+          (val) => {
+            object.opacity = val;
+          },
+          easings.linear,
+        ),
+      );
+    }
+    return anims;
+  }
+
+  static Rotate(gameObj, initial, final, duration) {
+    return gameObj.tween(
+      initial,
+      final,
+      duration,
+      (val) => {
+        gameObj.angle = val;
+      },
+      easings.easeInOutSine,
+    );
+  }
+
+  /**
    * Slide Up or Down.
    *
    * @param {GameObj} gameObj

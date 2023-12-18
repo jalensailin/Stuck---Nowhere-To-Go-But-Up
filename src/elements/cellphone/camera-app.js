@@ -6,7 +6,7 @@ import STUCK from "../../config.js";
 export default class CameraApp extends Application {
   constructor() {
     super("camera", "camera-icon");
-    this.initial.offset = vec2(14, 14);
+    this.initial.offset = vec2(14, 34);
   }
 
   /**
@@ -16,10 +16,16 @@ export default class CameraApp extends Application {
   startAnimation() {
     const { Cellphone } = StuckGame;
     const animations = [
-      // Fade this app icon.
-      Animations.Fade(this.gameObj, this.gameObj.opacity, 0.2, 2),
       // Fade the whole cellphone.
       Animations.Fade(Cellphone.gameObj, Cellphone.gameObj.opacity, 0.5, 2),
+      // Fade all children of the cellphone, excluding objects with the tags in the last argument.
+      ...Animations.FadeChildren(
+        Cellphone.gameObj,
+        this.gameObj.opacity,
+        0,
+        0.3,
+        ["screenspace", "homeButton"],
+      ),
       // Slide this whole cellphone.
       Animations.Slide(Cellphone.gameObj, Cellphone.gameObj.pos, center(), 2),
     ];
@@ -54,6 +60,7 @@ export default class CameraApp extends Application {
         vec2(Cellphone.final.offset), // Wrap this in vec2 so that we don't change the actual value of `Cellphone.final.offset`. This may be a bug.
         2,
       ),
+      Animations.Rotate(Cellphone.gameObj, Cellphone.gameObj.angle, 0, 2),
     ];
     return Promise.all(animations);
   }

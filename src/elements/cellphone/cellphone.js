@@ -20,6 +20,7 @@ export default class Cellphone extends GameElement {
     // This will be a child of the cellphone object, and parent
     // to app icons and other screen elements.
     this.screenSpace = null;
+    this.infoBar = null;
     this.homeButton = null;
 
     this.apps = {
@@ -31,13 +32,21 @@ export default class Cellphone extends GameElement {
   initialize(parentObject) {
     super.initialize(parentObject);
 
-    // Generate screenspace componenet
+    // /////////////////////////////// //
+    /* Generate phone child components */
+    // /////////////////////////////// //
+    // Generate Screenspace area.
     this.screenSpace = this.gameObj.add([
-      area({ shape: new Rect(vec2(0, 0), 245, 386) }),
-      pos(-110, -200),
+      area({ shape: new Rect(vec2(0, 0), 241, 386) }),
+      pos(-108, -198),
       "screenspace",
       { name: "screenspace" },
     ]);
+
+    // Generate the info bar.
+    this.generateInfoBar();
+
+    // Generate Home Button area.
     this.homeButton = this.gameObj.add([
       area({ shape: new Rect(vec2(0, 0), 45, 45) }),
       pos(-10, 200),
@@ -51,6 +60,51 @@ export default class Cellphone extends GameElement {
       // Apps are a child of the screenspace.
       app.initialize(this.screenSpace);
     }
+  }
+
+  /**
+   * Add info bar to phone (date, time, cellular network).
+   */
+  generateInfoBar() {
+    // Generate info bar.
+    this.infoBar = this.screenSpace.add([
+      pos(0),
+      rect(241, 20),
+      color(167, 209, 177),
+      opacity(0.4),
+      { initialOpacity: 0.4, finalOpacity: 1 },
+      timer(),
+    ]);
+    this.infoBar.add([
+      text("soulCellular", { size: 12 }),
+      pos(2, 5),
+      color(0, 0, 0),
+      opacity(0.4),
+      { initialOpacity: 0.4, finalOpacity: 1 },
+      timer(),
+      "cellCarrier",
+      { name: "cellCarrier" },
+    ]);
+    this.infoBar.add([
+      text("4:20", { size: 12, width: 30 }),
+      pos(110, 5),
+      color(0, 0, 0),
+      opacity(0.4),
+      { initialOpacity: 0.4, finalOpacity: 1 },
+      timer(),
+      "currentTime",
+      { name: "currentTime" },
+    ]);
+    this.infoBar.add([
+      text("69%", { size: 12, width: 24 }),
+      pos(216, 5),
+      color(0, 0, 0),
+      opacity(0.4),
+      { initialOpacity: 0.4, finalOpacity: 1 },
+      timer(),
+      "batteryPercentage",
+      { name: "batteryPercentage" },
+    ]);
   }
 
   getComponents() {
@@ -100,7 +154,9 @@ export default class Cellphone extends GameElement {
         return;
       }
       this.initialize(parentObject);
-      this.setFadeOnHover({ excludedNames: ["screenspace", "homeButton"] });
+      this.setFadeOnHover({
+        excludedNames: ["screenspace", "homeButton"],
+      });
     });
 
     this.listeners.homeButton = onClick("homeButton", () => {
