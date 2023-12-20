@@ -29,6 +29,8 @@ export default class Cellphone extends GameElement {
       camera: new CameraApp(),
       messages: new MessagesApp(),
     };
+
+    this.listeners.appIcons = [];
   }
 
   initialize(parentObject) {
@@ -40,7 +42,7 @@ export default class Cellphone extends GameElement {
     // Generate Screenspace area.
     this.screenSpace = this.gameObj.add([
       pos(-108, -197),
-      rect(240, 386),
+      rect(240, 383),
       mask(),
       "screenspace",
       { name: "screenspace" },
@@ -77,6 +79,8 @@ export default class Cellphone extends GameElement {
       opacity(0.4),
       { initialOpacity: 0.4, finalOpacity: 1 },
       timer(),
+      "infoBar",
+      { name: "infoBar" },
     ]);
     this.infoBar.add([
       text("soulCellular", { size: 12 }),

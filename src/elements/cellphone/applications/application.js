@@ -22,11 +22,12 @@ export default class Application extends GameElement {
     super.initialize(parentObject);
 
     // Open/close app on click.
-    this.gameObj.onClick(() => {
+    const appOpenListener = this.gameObj.onClick(() => {
       const app = this.name;
       if (StuckGame.Cellphone.apps.current === app) return;
       StuckGame.Cellphone.startApp(app);
     });
+    StuckGame.Cellphone.listeners.appIcons.push(appOpenListener);
   }
 
   getComponents() {
@@ -35,6 +36,7 @@ export default class Application extends GameElement {
       ...parentComponents,
       sprite(this.spriteName, { width: 60, height: 60 }),
       area(),
+      "appIcon",
     ];
   }
 
@@ -58,30 +60,30 @@ export default class Application extends GameElement {
 
   /**
    * Override/super this for individual apps.
+   * Fade all app icons out.
    */
   startAnimation() {
     const { Cellphone } = StuckGame;
-    // Fade all children, excluding objects with the tags in the last argument.
-    return Promise.all(
-      Animations.FadeChildren(Cellphone.gameObj, 1, 0, 0.3, [
-        "screenspace",
-        "homeButton",
-      ]),
-    );
+    const appIcons = Cellphone.gameObj.get("appIcon", { recursive: true });
+    const animations = [];
+    for (const icon of appIcons) {
+      animations.push(Animations.Fade(icon, icon.opacity, 0, 0.3));
+    }
+    return Promise.all(animations);
   }
 
   /**
    * Override/super this for individual apps.
+   * Fall all app icons back in.
    */
   closeAnimation() {
     const { Cellphone } = StuckGame;
-    // Fade all children, excluding objects with the tags in the last argument.
-    return Promise.all(
-      Animations.FadeChildren(Cellphone.gameObj, 0, 1, 0.3, [
-        "screenspace",
-        "homeButton",
-      ]),
-    );
+    const appIcons = Cellphone.gameObj.get("appIcon", { recursive: true });
+    const animations = [];
+    for (const icon of appIcons) {
+      animations.push(Animations.Fade(icon, 0, 1, 0.3));
+    }
+    return Promise.all(animations);
   }
 
   /**
