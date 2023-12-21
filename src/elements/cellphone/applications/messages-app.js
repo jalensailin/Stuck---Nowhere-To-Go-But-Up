@@ -22,7 +22,7 @@ export default class MessagesApp extends Application {
         { message: "Things are okay with me. What about you?", contact: false },
         {
           message:
-            "Just okay... is ther eanything wrong? Im always here to talk",
+            "Just okay...? is ther eanything wrong? Im always here to talk",
           contact: true,
         },
         { message: "there**", contact: true },

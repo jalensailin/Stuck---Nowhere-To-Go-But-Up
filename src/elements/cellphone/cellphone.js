@@ -44,6 +44,7 @@ export default class Cellphone extends GameElement {
       pos(-108, -198),
       rect(241, 383),
       mask(),
+      area(),
       "screenspace",
       { name: "screenspace" },
     ]);

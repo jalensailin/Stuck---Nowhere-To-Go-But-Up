@@ -74,7 +74,25 @@ export default class CameraApp extends Application {
 
     // Take a screenshot, crop, and download.
     const screenshotListener = onKeyPress("p", async () => {
+      const cellphoneChildrenObjects = Cellphone.gameObj
+        .get("*", { recursive: true })
+        .filter((obj) => obj.opacity)
+        .concat(Cellphone.gameObj);
+      //
+      const prevOpacities = cellphoneChildrenObjects.map((obj) => obj.opacity);
+      // Make phone and child objects transparent for the screenshot.
+      cellphoneChildrenObjects.forEach((obj) => {
+        obj.opacity = 0;
+      });
+      // Wait a fraction of a second before taking the screenshot so that things are actually transparent.
+      await wait(0.05);
       const photo = screenshot();
+      // Add a flash effect
+      add([rect(10000, 10000), opacity(), lifespan(0.1, 0.1)]);
+      // Restore phone and child objects back to previous opacity
+      cellphoneChildrenObjects.forEach((obj, index) => {
+        obj.opacity = prevOpacities[index];
+      });
       const canvasWidthActual = canvas.width;
       const canvasHeightActual = canvas.height;
       const canvasWidthOriginal = StuckGame.Canvas.width;
@@ -85,7 +103,7 @@ export default class CameraApp extends Application {
         y: canvasHeightActual / canvasHeightOriginal,
       };
 
-      const bbx = Cellphone.gameObj.screenArea().bbox();
+      const bbx = Cellphone.screenSpace.screenArea().bbox();
       const screenshotData = {
         offsetX: bbx.pos.x * ratio.x,
         offsetY: bbx.pos.y * ratio.y,
@@ -101,10 +119,10 @@ export default class CameraApp extends Application {
           height: screenshotData.height,
         },
       });
-      StuckGame.Player.gameObj.add([
+      StuckGame.Cellphone.gameObj.add([
         sprite("screenshot"),
-        pos(0, 0),
-        scale(0.2),
+        pos(-16, 0),
+        scale(0.3),
         opacity(),
         lifespan(1, { fade: 0.5 }),
       ]);
