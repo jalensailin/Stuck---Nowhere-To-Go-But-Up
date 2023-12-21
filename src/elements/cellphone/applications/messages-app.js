@@ -11,15 +11,26 @@ export default class MessagesApp extends Application {
     this.messageSpace = null;
     this.chats = {
       friend1: [
-        { message: "This is a Test", contact: true },
-        { message: "This is another Test2", contact: false },
-        { message: "This is another Test3", contact: false },
-        { message: "This is another Test4", contact: true },
-        { message: "This is another Test5", contact: false },
-        { message: "This is another Test6", contact: true },
-        { message: "This is another Test7", contact: true },
-        { message: "This is a Test", contact: true },
-        { message: "This is a Test", contact: true },
+        {
+          message: "Hey! Long time no talk. I miss uuu. How have things been?",
+          contact: true,
+        },
+        {
+          message: "Hey that's sweet of you to reach out. i miss you too",
+          contact: false,
+        },
+        { message: "Things are okay with me. What about you?", contact: false },
+        {
+          message:
+            "Just okay... is ther eanything wrong? Im always here to talk",
+          contact: true,
+        },
+        { message: "there**", contact: true },
+        {
+          message:
+            "Yeah... I've just been feeling down lately. Haven't really been going out or doing much of anything",
+          contact: false,
+        },
       ],
     };
   }
@@ -47,17 +58,35 @@ export default class MessagesApp extends Application {
     this.messageSpace = this.messageMask.add([
       pos(0, Cellphone.screenSpace.height - Cellphone.infoBar.height),
       "messageSpace",
-      { name: "messageSpace" },
+      { name: "messageSpace", totalHeight: 0 },
     ]);
 
+    // List of messages to display.
     const messageList = this.chats[this.currentChat].toReversed();
+
+    // The y-position of each message bubble is dependent on the total heights of previous ones.
+    let positionY = 0;
+    // Iterate over each message and create message bubble/text game objects.
     messageList.forEach((message, index) => {
       const msgColor = message.contact ? rgb(117, 217, 50) : rgb(74, 160, 217);
+      // The x-position relies on where each message came from (not dependent on other messages).
       const positionX = message.contact ? 15 : 75;
-      const positionY = -75 - index * 70; // 10 pixel gap between messages.
+      const textData = {
+        text: message.message,
+        size: 12,
+        width: 140,
+      };
+      const textInfo = formatText(textData);
+      if (index === 0) {
+        // 12px border around the bubble + 15px buffer from bottom of screen.
+        positionY -= textInfo.height + 27;
+      } else {
+        // 12px border around the bubble, + 10px buffer from last message.
+        positionY -= textInfo.height + 22;
+      }
       const msg = this.messageSpace.add([
         pos(positionX, positionY),
-        rect(150, 60, { radius: 10 }),
+        rect(textInfo.width + 10, textInfo.height + 12, { radius: 10 }),
         color(msgColor),
         opacity(0),
         timer(),
@@ -65,10 +94,10 @@ export default class MessagesApp extends Application {
         { name: "messageBubble" },
       ]);
       msg.add([
-        pos(5, 5),
-        text(message.message, {
-          size: 12,
-          width: message.width - 5,
+        pos(6, 6),
+        text(textData.text, {
+          size: textData.size,
+          width: textData.width - 10,
         }),
         color(0, 0, 0),
         opacity(0),
@@ -77,6 +106,7 @@ export default class MessagesApp extends Application {
         { name: "messageText" },
       ]);
     });
+    this.messageSpace.totalHeight = positionY;
   }
 
   /**
@@ -123,18 +153,17 @@ export default class MessagesApp extends Application {
    * @override
    */
   setApplicationListeners() {
-    const messageList = this.chats[this.currentChat].toReversed();
-    const messagesHeight = messageList.length * 72; // TODO: Dynamically calculate height.
-    const scrollListener = this.messageSpace.onScroll((vector) => {
+    const { messageSpace } = this;
+    const scrollListener = messageSpace.onScroll((vector) => {
       if (
         vector.y > 0 &&
-        messagesHeight - (this.messageSpace.pos.y - this.messageMask.height) <=
+        -messageSpace.totalHeight -
+          (messageSpace.pos.y - this.messageMask.height) <=
           this.messageMask.height
       )
         return;
-      if (vector.y < 0 && this.messageSpace.pos.y <= this.messageMask.height)
-        return; // Don't scroll below most recent message.
-      this.messageSpace.pos.y += vector.y;
+      if (vector.y < 0 && messageSpace.pos.y <= this.messageMask.height) return; // Don't scroll below most recent message.
+      messageSpace.pos.y += vector.y;
     });
     this.listeners.push(scrollListener);
   }
