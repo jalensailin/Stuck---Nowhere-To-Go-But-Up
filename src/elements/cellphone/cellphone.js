@@ -41,8 +41,8 @@ export default class Cellphone extends GameElement {
     // /////////////////////////////// //
     // Generate Screenspace area.
     this.screenSpace = this.gameObj.add([
-      pos(-108, -197),
-      rect(240, 383),
+      pos(-108, -198),
+      rect(241, 383),
       mask(),
       "screenspace",
       { name: "screenspace" },
@@ -74,7 +74,7 @@ export default class Cellphone extends GameElement {
     // Generate info bar.
     this.infoBar = this.screenSpace.add([
       pos(0),
-      rect(241, 20),
+      rect(this.screenSpace.width, 20),
       color(167, 209, 177),
       opacity(0.4),
       { initialOpacity: 0.4, finalOpacity: 1 },
@@ -83,7 +83,7 @@ export default class Cellphone extends GameElement {
       { name: "infoBar" },
     ]);
     this.infoBar.add([
-      text("soulCellular", { size: 12 }),
+      text("soulSellular", { size: 12 }),
       pos(2, 5),
       color(0, 0, 0),
       opacity(0.4),
