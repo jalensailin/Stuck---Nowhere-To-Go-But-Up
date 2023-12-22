@@ -6,15 +6,15 @@ import MessagesApp from "./applications/messages-app.js";
 export default class Cellphone extends GameElement {
   constructor(options) {
     super("cellphone", "cellphone", options);
-    // this.spriteData = getSprite("cellphone"); // Should this be defined in GameElement instead?
 
     const { initial } = this;
     initial.offset = vec2(1100, 1000);
-    this.final.offset = vec2(1100, 500);
+    this.final.offset = vec2(1100, 475);
 
     initial.opacity = 0.8;
     this.final.opacity = 1;
 
+    // Needed for the camera-app.
     this.movementVector = vec2(0, 0);
     this.speed = 300;
 
@@ -41,8 +41,8 @@ export default class Cellphone extends GameElement {
     // /////////////////////////////// //
     // Generate Screenspace area.
     this.screenSpace = this.gameObj.add([
-      pos(-108, -198),
-      rect(241, 383),
+      pos(-111, -202),
+      rect(241, 397),
       mask(),
       area(),
       "screenspace",
@@ -54,10 +54,19 @@ export default class Cellphone extends GameElement {
 
     // Generate Home Button area.
     this.homeButton = this.gameObj.add([
-      area({ shape: new Rect(vec2(0, 0), 45, 45) }),
-      pos(-10, 200),
+      sprite("home-button", {
+        width: 104,
+        height: 104,
+        frame: 0,
+        animSpeed: 1.8,
+      }), // Same scale as
+      area({ shape: new Rect(vec2(0, -7), 60, 33) }),
+      pos(-19.5, 215),
+      opacity(0.8),
+      timer(),
       "homeButton",
       { name: "homeButton" },
+      { initialOpacity: 0.8, finalOpacity: 1 },
     ]);
 
     // Initialize all app icons.
@@ -119,6 +128,7 @@ export default class Cellphone extends GameElement {
     const parentComponents = super.getComponents();
     return [
       ...parentComponents,
+      sprite(this.spriteName, { width: 312, height: 520 }), // 0.65 scale
       rotate(),
       area(),
       anchor("center"),
@@ -163,11 +173,12 @@ export default class Cellphone extends GameElement {
       }
       this.initialize(parentObject);
       this.setFadeOnHover({
-        excludedNames: ["screenspace", "homeButton"],
+        excludedNames: ["screenspace"],
       });
     });
 
     this.listeners.homeButton = onClick("homeButton", () => {
+      this.homeButton.play("depress");
       if (this.apps.current === "none") return;
       this.closeApp(this.apps.current);
     });

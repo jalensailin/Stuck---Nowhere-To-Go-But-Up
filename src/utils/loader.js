@@ -15,7 +15,14 @@ export default class Load {
       }),
 
       // Load Cellphone and associated sprites
-      loadSprite("cellphone", "../../assets/cellphone/test-cellphone.png"),
+      loadSprite("cellphone", "../../assets/cellphone/cellphone.png"),
+      loadSprite("home-button", "../../assets/cellphone/home-button.png", {
+        sliceX: 4,
+        sliceY: 1,
+        anims: {
+          depress: { from: 0, to: 3, loop: false },
+        },
+      }),
       loadSprite("camera-icon", "../../assets/cellphone/camera-app-icon.png"),
       loadSprite(
         "messages-icon",
