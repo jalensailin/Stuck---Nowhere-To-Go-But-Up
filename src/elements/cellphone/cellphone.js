@@ -2,6 +2,7 @@ import Animations from "../animations.js";
 import GameElement from "../game-element.js";
 import CameraApp from "./applications/camera-app.js";
 import MessagesApp from "./applications/messages-app.js";
+import SnakeApp from "./applications/snake-app.js";
 
 export default class Cellphone extends GameElement {
   constructor(options) {
@@ -28,6 +29,7 @@ export default class Cellphone extends GameElement {
       current: "none",
       camera: new CameraApp(),
       messages: new MessagesApp(),
+      snake: new SnakeApp(),
     };
 
     this.listeners.appIcons = [];

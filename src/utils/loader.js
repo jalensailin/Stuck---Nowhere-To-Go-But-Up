@@ -28,6 +28,7 @@ export default class Load {
         "messages-icon",
         "../../assets/cellphone/messages-app-icon.png",
       ),
+      loadSprite("snake-icon", "../../assets/cellphone/snake-app-icon.jpg"),
 
       loadSpriteAtlas("../../assets/comfy-interior-global-limited.png", {
         "the-shining": {
