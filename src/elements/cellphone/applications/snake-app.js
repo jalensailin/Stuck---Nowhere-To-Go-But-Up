@@ -104,16 +104,21 @@ export default class SnakeApp extends Application {
    */
   setSnakeMovement() {
     const movementControls = [
-      onKeyPress("i", () => {
+      onKeyDown("i", () => {
+        // Check to prevent going in the opposite direction that Snake is moving.
+        if (this.snakeHead.lastDir.eq(DOWN)) return;
         if (this.dir !== DOWN) this.dir = UP;
       }),
-      onKeyPress("k", () => {
+      onKeyDown("k", () => {
+        if (this.snakeHead.lastDir.eq(UP)) return;
         if (this.dir !== UP) this.dir = DOWN;
       }),
-      onKeyPress("j", () => {
+      onKeyDown("j", () => {
+        if (this.snakeHead.lastDir.eq(RIGHT)) return;
         if (this.dir !== RIGHT) this.dir = LEFT;
       }),
-      onKeyPress("l", () => {
+      onKeyDown("l", () => {
+        if (this.snakeHead.lastDir.eq(LEFT)) return;
         if (this.dir !== LEFT) this.dir = RIGHT;
       }),
     ];
@@ -292,7 +297,6 @@ export default class SnakeApp extends Application {
       bodyParts.forEach((part, index) => {
         part.pos = nextPositions[index];
       });
-      if (snakeHead.lastDir.eq(this.dir.scale(-1))) return;
       // Move head to next location.
       snakeHead.pos = snakeHead.pos.add(this.dir.scale(10));
       // Update previous direction
