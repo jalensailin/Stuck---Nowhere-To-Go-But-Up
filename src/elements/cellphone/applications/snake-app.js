@@ -9,6 +9,8 @@ export default class SnakeApp extends Application {
     this.gameSpace = null;
     this.innerWindow = null;
     this.snakeHead = null;
+    this.scoreDisplay = null;
+    this.highScoreDisplay = null;
 
     this.dir = DOWN;
 
@@ -28,6 +30,8 @@ export default class SnakeApp extends Application {
     this.gameSpace = null;
     this.innerWindow = null;
     this.snakeHead = null;
+    this.scoreDisplay = null;
+    this.highScoreDisplay = null;
     this.resetStates();
   }
 
@@ -78,10 +82,14 @@ export default class SnakeApp extends Application {
 
       // Increase score.
       this.score += apple.points;
+      this.scoreDisplay.text = `Score: ${this.score}`;
       // Set high score if applicable.
+      if (this.score > this.highScore) {
+        this.highScore = this.score;
+        this.highScoreDisplay.text = `Hi-Score: ${this.highScore}`;
+      }
 
       // Get body parts and identify the most distal (the caboose).
-      if (this.score > this.highScore) this.highScore = this.score;
       const bodyParts = this.innerWindow.get("snakeBody", { recursive: true });
       const caboose = bodyParts.at(-1);
       // Create a new body part at the position of the caboose.
@@ -125,7 +133,7 @@ export default class SnakeApp extends Application {
     // Add border
     const outerWindow = this.gameSpace.add([
       pos(0, 0),
-      rect(Cellphone.screenSpace.width, Cellphone.screenSpace.width),
+      rect(Cellphone.screenSpace.width, Cellphone.screenSpace.height),
       color(130, 130, 130),
       opacity(),
       timer(),
@@ -134,7 +142,7 @@ export default class SnakeApp extends Application {
     // Add boundary line. Also acts as a collider.
     const boundary = outerWindow.add([
       pos(9.5, 9.5),
-      rect(outerWindow.width - 19, outerWindow.height - 19, { fill: false }),
+      rect(outerWindow.width - 19, outerWindow.width - 19, { fill: false }),
       outline(2, rgb(0, 0, 0)),
       area(),
       opacity(),
@@ -150,6 +158,21 @@ export default class SnakeApp extends Application {
       opacity(),
       timer(),
       "innerWindow",
+    ]);
+
+    // Add score display
+    this.scoreDisplay = outerWindow.add([
+      pos(10, this.innerWindow.height + 21),
+      text(`Score: ${this.score}`, { size: 18 }),
+      opacity(),
+      timer(),
+    ]);
+
+    this.highScoreDisplay = outerWindow.add([
+      pos(this.innerWindow.width / 2, this.innerWindow.height + 21),
+      text(`Hi-Score: ${this.highScore}`, { size: 18 }),
+      opacity(),
+      timer(),
     ]);
   }
 
@@ -280,6 +303,7 @@ export default class SnakeApp extends Application {
     this.snakeHead.destroy();
     const bodyParts = this.innerWindow.get("snakeBody", { recursive: true });
     bodyParts.forEach((part) => part.destroy());
+    this.scoreDisplay.text = `Score: 0`;
     this.resetStates();
   }
 
