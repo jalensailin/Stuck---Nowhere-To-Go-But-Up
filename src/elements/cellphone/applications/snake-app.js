@@ -259,6 +259,10 @@ export default class SnakeApp extends Application {
     // Early return if we are not in a game-over state.
     if (!this.gameOver) return;
 
+    // Destroy Game Over Text
+    const [gameOverText] = this.innerWindow.get("gameOverText");
+    if (gameOverText) gameOverText.destroy();
+
     // Destroy any existing apples.
     const [existingApple] = this.innerWindow.get("apple");
     if (existingApple) existingApple.destroy();
@@ -305,6 +309,30 @@ export default class SnakeApp extends Application {
     bodyParts.forEach((part) => part.destroy());
     this.scoreDisplay.text = `Score: 0`;
     this.resetStates();
+
+    // Show Game Over Text
+    const gameOver = this.innerWindow.add([
+      pos(this.innerWindow.width / 2, this.innerWindow.height / 2 - 12),
+      text("Game Over!", { size: 24 }),
+      anchor("center"),
+      opacity(),
+      timer(),
+      "gameOverText",
+    ]);
+    gameOver.add([
+      pos(0, 24),
+      text("Press Enter to Restart", { size: 14 }),
+      anchor("center"),
+      opacity(),
+      timer(),
+    ]);
+
+    // Blink the text
+    const loopSpeed = 1;
+    gameOver.loop(loopSpeed, async () => {
+      await Animations.Fade(gameOver, 1, 0.2, loopSpeed / 2);
+      await Animations.Fade(gameOver, 0.2, 1, loopSpeed / 2);
+    });
   }
 
   /**
