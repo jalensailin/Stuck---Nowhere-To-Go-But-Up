@@ -179,6 +179,30 @@ export default class SnakeApp extends Application {
       opacity(),
       timer(),
     ]);
+
+    // Show Start Game Text
+    const startGame = this.innerWindow.add([
+      pos(this.innerWindow.width / 2, this.innerWindow.height / 2 - 12),
+      text("Play Snake!", { size: 24 }),
+      anchor("center"),
+      opacity(),
+      timer(),
+      "startGameText",
+    ]);
+    startGame.add([
+      pos(0, 24),
+      text("Press Enter to Start", { size: 14 }),
+      anchor("center"),
+      opacity(),
+      timer(),
+    ]);
+
+    // Blink the text
+    const loopSpeed = 1;
+    startGame.loop(loopSpeed, async () => {
+      await Animations.Fade(startGame, 1, 0.2, loopSpeed / 2);
+      await Animations.Fade(startGame, 0.2, 1, loopSpeed / 2);
+    });
   }
 
   /**
@@ -264,9 +288,13 @@ export default class SnakeApp extends Application {
     // Early return if we are not in a game-over state.
     if (!this.gameOver) return;
 
-    // Destroy Game Over Text
+    // Destroy Game Over Text, if applicable
     const [gameOverText] = this.innerWindow.get("gameOverText");
     if (gameOverText) gameOverText.destroy();
+
+    // Destroy Start Game Text, if applicable
+    const [startGameText] = this.innerWindow.get("startGameText");
+    if (startGameText) startGameText.destroy();
 
     // Destroy any existing apples.
     const [existingApple] = this.innerWindow.get("apple");
