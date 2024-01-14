@@ -16,7 +16,7 @@ export default class SnakeApp extends Application {
 
     this.gameOver = true;
     this.score = 0;
-    this.highScore = 0;
+    this.highScore = Number.parseInt(getData("snake-high-score", "0"));
   }
 
   async start() {
@@ -86,6 +86,7 @@ export default class SnakeApp extends Application {
       // Set high score if applicable.
       if (this.score > this.highScore) {
         this.highScore = this.score;
+        setData("snake-high-score", `${this.highScore}`);
         this.highScoreDisplay.text = `Hi-Score: ${this.highScore}`;
       }
 
